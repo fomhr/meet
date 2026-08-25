@@ -16,19 +16,19 @@
       --canvas: #f6f3f4;
       --surface: #ffffff;
       --surface-soft: #fff7f8;
-      --blue: #b42336;
-      --blue-soft: #fff0f2;
+      --blue: #f02243;
+      --blue-soft: #fff0f3;
       --teal: #475467;
       --teal-soft: #f2f4f7;
       --amber: #8a4b12;
       --amber-soft: #fff4e8;
-      --red: #b42336;
-      --red-soft: #fff0f2;
+      --red: #f02243;
+      --red-soft: #fff0f3;
       --violet: #7a5360;
       --violet-soft: #f7eef1;
       --sidebar: 232px;
       --radius: 6px;
-      --shadow: 0 18px 50px rgba(91, 24, 36, .15);
+      --shadow: 0 18px 50px rgba(202, 28, 58, .16);
       --font: Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
     }
 
@@ -58,7 +58,7 @@
       width: var(--sidebar);
       padding: 20px 16px;
       color: #fff4f5;
-      background: #8f1425;
+      background: #df1f3a;
       border-right: 1px solid rgba(255,255,255,.08);
       display: flex;
       flex-direction: column;
@@ -75,7 +75,7 @@
       display: grid;
       place-items: center;
       background: #fff;
-      color: #8f1425;
+      color: #df1f3a;
       border-radius: 5px;
       font-weight: 800;
       font-size: 13px;
@@ -286,6 +286,9 @@
     .analysis-panel { min-height: 290px; padding: 22px; }
     .analysis-panel + .analysis-panel { border-left: 1px solid var(--line); }
     .panel-kicker { color: var(--muted); font-size: 11px; font-weight: 700; }
+    .workload-scale { margin-top: 9px; display: flex; gap: 12px; color: var(--subtle); font-size: 10px; }
+    .workload-scale span { display: inline-flex; align-items: center; gap: 5px; }
+    .workload-scale i { width: 9px; height: 9px; border-radius: 2px; }
     .status-total { margin-top: 6px; font-size: 25px; font-weight: 800; }
     .stacked-track {
       height: 12px;
@@ -304,9 +307,9 @@
     .owner-bars { margin-top: 12px; display: grid; gap: 12px; }
     .owner-row { display: grid; grid-template-columns: 54px 1fr 28px; gap: 10px; align-items: center; }
     .owner-name { color: var(--muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .bar-track { height: 8px; background: #edf0f5; border-radius: 2px; overflow: hidden; }
-    .bar-fill { height: 100%; background: var(--red); border-radius: 2px; transition: width .35s ease; }
-    .owner-value { text-align: right; font-size: 11px; font-weight: 800; }
+    .bar-track { height: 10px; background: #f3e7e9; border-radius: 3px; overflow: hidden; }
+    .bar-fill { display: block; height: 100%; min-width: 6px; border-radius: 3px; transition: width .35s ease, background .2s ease; }
+    .owner-value { text-align: right; font-size: 12px; font-weight: 850; }
 
     .queue-grid { display: grid; grid-template-columns: 1fr 1fr; }
     .queue-panel { min-width: 0; }
@@ -528,7 +531,7 @@
       z-index: 120;
       padding: 10px 13px;
       color: #fff;
-      background: #8f1425;
+      background: #df1f3a;
       border-radius: 5px;
       box-shadow: var(--shadow);
       font-size: 11px;
@@ -680,6 +683,11 @@
             </div>
             <div class="analysis-panel">
               <div class="panel-kicker">담당자별 주담당 업무</div>
+              <div class="workload-scale" aria-label="과업 수 색상 기준">
+                <span><i style="background:#ffb3bf"></i>낮음</span>
+                <span><i style="background:#ff6b7f"></i>보통</span>
+                <span><i style="background:#f02243"></i>높음</span>
+              </div>
               <div class="owner-bars" id="ownerBars"></div>
             </div>
           </div>
@@ -763,7 +771,7 @@
     const STATUS_ORDER = ['계획', '진행중', '완료', '보류', '취소'];
     const STATUS_META = {
       '계획': { cls: 'status-plan', color: '#8f6a75' },
-      '진행중': { cls: 'status-progress', color: '#b42336' },
+      '진행중': { cls: 'status-progress', color: '#f02243' },
       '완료': { cls: 'status-done', color: '#475467' },
       '보류': { cls: 'status-hold', color: '#7b303c' },
       '취소': { cls: 'status-cancel', color: '#a79ca0' }
@@ -972,10 +980,13 @@
       const max = Math.max.apply(null, ownerCounts.map(function(item) { return item.count; }).concat([1]));
       byId('ownerBars').innerHTML = ownerCounts.map(function(item) {
         const active = state.owner === item.owner;
-        return '<div class="owner-row" style="' + (active ? 'font-weight:800' : '') + '"><span class="owner-name">'
+        const ratio = item.count / max;
+        const loadColor = ratio >= .85 ? '#f02243' : (ratio >= .6 ? '#ff6b7f' : '#ffb3bf');
+        const loadLabel = ratio >= .85 ? '높음' : (ratio >= .6 ? '보통' : '낮음');
+        return '<div class="owner-row" title="' + item.count + '건 · ' + loadLabel + '" style="' + (active ? 'font-weight:800' : '') + '"><span class="owner-name">'
           + esc(item.owner) + '</span><span class="bar-track"><span class="bar-fill" style="width:'
-          + ((item.count / max) * 100) + '%;' + (active ? 'background:#8f1425' : '') + '"></span></span>'
-          + '<span class="owner-value">' + item.count + '</span></div>';
+          + (ratio * 100) + '%;background:' + loadColor + '"></span></span>'
+          + '<span class="owner-value" style="color:' + loadColor + '">' + item.count + '</span></div>';
       }).join('');
     }
     function renderAttention(scope) {
