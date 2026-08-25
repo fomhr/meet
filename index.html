@@ -1,0 +1,1149 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>주간업무 운영센터 | 2026-08-24</title>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #657087;
+      --subtle: #8a94a7;
+      --line: #dfe4ec;
+      --line-strong: #c8d0dc;
+      --canvas: #f3f5f8;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --blue: #2463eb;
+      --blue-soft: #eaf1ff;
+      --teal: #0f8a78;
+      --teal-soft: #e4f6f2;
+      --amber: #b36b00;
+      --amber-soft: #fff3d6;
+      --red: #c83b4d;
+      --red-soft: #fff0f2;
+      --violet: #6f4ad8;
+      --violet-soft: #f1edff;
+      --sidebar: 232px;
+      --radius: 6px;
+      --shadow: 0 18px 50px rgba(30, 44, 72, .14);
+      --font: Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+    button, input, select { font: inherit; letter-spacing: 0; }
+    button { color: inherit; }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid rgba(36, 99, 235, .22); outline-offset: 2px; }
+    [hidden] { display: none !important; }
+
+    .app-shell { min-height: 100vh; }
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 30;
+      width: var(--sidebar);
+      padding: 20px 16px;
+      color: #dce5f6;
+      background: #182238;
+      border-right: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      flex-direction: column;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 2px 4px 22px;
+    }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      color: #182238;
+      border-radius: 5px;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .brand strong { display: block; color: #fff; font-size: 14px; }
+    .brand small { display: block; margin-top: 2px; color: #93a1ba; font-size: 11px; }
+    .nav-label {
+      padding: 8px 10px;
+      color: #73829d;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .nav-link {
+      width: 100%;
+      min-height: 40px;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      color: #aebad0;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .16s ease, color .16s ease, transform .16s ease;
+    }
+    .nav-link:hover, .nav-link.active { background: rgba(255,255,255,.09); color: #fff; }
+    .nav-link:hover { transform: translateX(2px); }
+    .nav-link svg { width: 17px; height: 17px; }
+    .sidebar-meta {
+      margin-top: auto;
+      padding: 14px 10px 4px;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .sidebar-meta span { display: block; color: #72819c; font-size: 10px; }
+    .sidebar-meta strong { display: block; margin-top: 3px; color: #cbd5e7; font-size: 12px; }
+
+    .workspace { min-height: 100vh; margin-left: var(--sidebar); }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 25;
+      height: 64px;
+      padding: 0 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-left, .topbar-actions { display: flex; align-items: center; gap: 10px; }
+    .breadcrumb { color: var(--muted); font-size: 12px; }
+    .breadcrumb strong { color: var(--ink); font-weight: 700; }
+    .sync-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding-left: 10px;
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 700;
+      border-left: 1px solid var(--line);
+    }
+    .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 4px var(--teal-soft); }
+    .icon-button {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: var(--surface);
+      cursor: pointer;
+      transition: border-color .15s ease, background .15s ease, transform .15s ease;
+    }
+    .icon-button:hover { border-color: var(--line-strong); background: var(--surface-soft); transform: translateY(-1px); }
+    .icon-button svg { width: 17px; height: 17px; }
+    .mobile-menu { display: none; }
+
+    main { padding: 30px; }
+    .page-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 28px;
+      padding: 4px 0 24px;
+      animation: rise .38s ease both;
+    }
+    .eyebrow { color: var(--blue); font-size: 11px; font-weight: 800; }
+    h1 { margin: 5px 0 7px; font-size: 36px; line-height: 1.2; letter-spacing: 0; }
+    .page-head p { margin: 0; color: var(--muted); max-width: 620px; }
+    .week-block { min-width: 188px; padding-left: 18px; border-left: 2px solid var(--blue); }
+    .week-block span { display: block; color: var(--subtle); font-size: 10px; font-weight: 700; }
+    .week-block strong { display: block; margin-top: 3px; font-size: 15px; }
+
+    .control-bar {
+      position: sticky;
+      top: 64px;
+      z-index: 20;
+      margin: 0 -30px;
+      padding: 12px 30px;
+      display: grid;
+      grid-template-columns: minmax(240px, 1fr) 210px auto;
+      gap: 10px;
+      background: rgba(243,245,248,.94);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .search-box { position: relative; }
+    .search-box svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      width: 16px;
+      height: 16px;
+      color: var(--subtle);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .search-box input, .select-control {
+      width: 100%;
+      height: 40px;
+      border: 1px solid var(--line-strong);
+      border-radius: 5px;
+      background: var(--surface);
+      color: var(--ink);
+    }
+    .search-box input { padding: 0 48px 0 38px; }
+    .search-hint {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      padding: 2px 6px;
+      color: var(--subtle);
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      font-size: 10px;
+      transform: translateY(-50%);
+    }
+    .select-control { padding: 0 34px 0 12px; cursor: pointer; }
+    .scope-button {
+      height: 40px;
+      padding: 0 13px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      border: 1px solid var(--line-strong);
+      border-radius: 5px;
+      background: var(--surface);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .scope-button[aria-pressed="true"] { color: var(--blue); border-color: #9db9f8; background: var(--blue-soft); }
+    .scope-button:disabled { opacity: .45; cursor: not-allowed; }
+    .scope-button svg { width: 16px; height: 16px; }
+
+    .kpi-band {
+      margin: 24px 0 0;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      animation: rise .42s .05s ease both;
+    }
+    .kpi {
+      min-height: 100px;
+      padding: 17px 18px;
+      position: relative;
+    }
+    .kpi + .kpi { border-left: 1px solid var(--line); }
+    .kpi-label { color: var(--muted); font-size: 11px; font-weight: 700; }
+    .kpi-value { margin-top: 7px; font-size: 28px; font-weight: 800; line-height: 1; }
+    .kpi-unit { margin-left: 3px; color: var(--subtle); font-size: 11px; font-weight: 600; }
+    .kpi-note { margin-top: 8px; color: var(--subtle); font-size: 10px; }
+    .kpi-alert .kpi-value { color: var(--red); }
+
+    .section-band {
+      margin-top: 24px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      animation: rise .42s .1s ease both;
+    }
+    .section-head {
+      min-height: 62px;
+      padding: 15px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-title { margin: 0; font-size: 14px; font-weight: 800; }
+    .section-caption { margin: 3px 0 0; color: var(--muted); font-size: 11px; }
+    .section-meta { color: var(--subtle); font-size: 11px; white-space: nowrap; }
+    .analysis-grid { display: grid; grid-template-columns: 1.05fr .95fr; }
+    .analysis-panel { min-height: 290px; padding: 22px; }
+    .analysis-panel + .analysis-panel { border-left: 1px solid var(--line); }
+    .panel-kicker { color: var(--muted); font-size: 11px; font-weight: 700; }
+    .status-total { margin-top: 6px; font-size: 25px; font-weight: 800; }
+    .stacked-track {
+      height: 12px;
+      margin-top: 22px;
+      display: flex;
+      overflow: hidden;
+      background: #edf0f5;
+      border-radius: 3px;
+    }
+    .stacked-segment { height: 100%; transition: width .35s ease; }
+    .status-legend { margin-top: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 12px; }
+    .legend-item { display: grid; grid-template-columns: 9px 1fr auto; align-items: center; gap: 8px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+    .legend-label { color: var(--muted); font-size: 11px; }
+    .legend-value { font-size: 12px; font-weight: 800; }
+    .owner-bars { margin-top: 12px; display: grid; gap: 12px; }
+    .owner-row { display: grid; grid-template-columns: 54px 1fr 28px; gap: 10px; align-items: center; }
+    .owner-name { color: var(--muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .bar-track { height: 8px; background: #edf0f5; border-radius: 2px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--blue); border-radius: 2px; transition: width .35s ease; }
+    .owner-value { text-align: right; font-size: 11px; font-weight: 800; }
+
+    .queue-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .queue-panel { min-width: 0; }
+    .queue-panel + .queue-panel { border-left: 1px solid var(--line); }
+    .queue-list { max-height: 430px; overflow: auto; }
+    .queue-empty { padding: 32px 18px; color: var(--muted); text-align: center; }
+    .queue-item {
+      width: 100%;
+      padding: 14px 18px;
+      display: grid;
+      grid-template-columns: 38px 1fr auto;
+      gap: 11px;
+      align-items: start;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+      transition: background .15s ease;
+    }
+    .queue-item:last-child { border-bottom: 0; }
+    .queue-item:hover { background: var(--surface-soft); }
+    .queue-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 5px;
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+    .queue-icon.due { background: var(--red-soft); color: var(--red); }
+    .queue-icon svg { width: 16px; height: 16px; }
+    .queue-title { font-size: 12px; font-weight: 800; line-height: 1.45; }
+    .queue-desc { margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .queue-side { display: grid; justify-items: end; gap: 6px; }
+
+    .badge {
+      display: inline-flex;
+      min-height: 22px;
+      padding: 3px 7px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .status-plan { color: var(--violet); background: var(--violet-soft); }
+    .status-progress { color: var(--blue); background: var(--blue-soft); }
+    .status-done { color: var(--teal); background: var(--teal-soft); }
+    .status-hold { color: var(--amber); background: var(--amber-soft); }
+    .status-cancel { color: var(--muted); background: #edf0f4; }
+    .due-over { color: var(--red); background: var(--red-soft); }
+    .due-today { color: var(--red); background: var(--red-soft); }
+    .due-soon { color: var(--amber); background: var(--amber-soft); }
+    .due-later { color: var(--blue); background: var(--blue-soft); }
+    .kind-new { color: var(--blue); border: 1px solid #bad0ff; background: transparent; }
+    .relation-collab { color: var(--teal); background: var(--teal-soft); }
+
+    .collab-strip { padding: 0; }
+    .collab-list { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .collab-item {
+      padding: 15px 18px;
+      border: 0;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+    .collab-item:nth-child(3n) { border-right: 0; }
+    .collab-item:hover { background: var(--surface-soft); }
+    .collab-item strong { display: block; font-size: 12px; }
+    .collab-item span { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
+
+    .task-toolbar {
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      overflow-x: auto;
+    }
+    .status-tabs { display: flex; gap: 4px; }
+    .status-tab {
+      height: 30px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 4px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .status-tab:hover { background: var(--surface-soft); }
+    .status-tab.active { color: var(--blue); background: var(--blue-soft); font-weight: 800; }
+    .result-count { color: var(--muted); font-size: 11px; white-space: nowrap; }
+    .table-wrap { overflow: auto; max-height: 720px; }
+    table { width: 100%; min-width: 1060px; border-collapse: collapse; table-layout: fixed; }
+    thead { position: sticky; top: 0; z-index: 5; background: #f8fafc; }
+    th {
+      height: 40px;
+      padding: 0 12px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line-strong);
+      text-align: left;
+      font-size: 10px;
+      font-weight: 800;
+    }
+    td {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      font-size: 11px;
+    }
+    tbody tr { cursor: pointer; transition: background .14s ease, box-shadow .14s ease; }
+    tbody tr:hover { background: #f7faff; box-shadow: inset 3px 0 0 var(--blue); }
+    .task-main { font-size: 12px; font-weight: 800; line-height: 1.45; }
+    .task-sub { margin-top: 4px; color: var(--muted); font-size: 10px; }
+    .task-plan {
+      color: #3e4a60;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      white-space: pre-line;
+    }
+    .progress-wrap { display: grid; gap: 6px; min-width: 72px; }
+    .progress-label { font-weight: 800; }
+    .progress-track { height: 5px; background: #e9edf3; border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--blue); }
+    .due-cell { white-space: nowrap; }
+    .due-cell small { display: block; margin-top: 4px; color: var(--muted); }
+    .table-empty { padding: 50px 20px; text-align: center; color: var(--muted); }
+
+    .validation-note {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      background: var(--surface-soft);
+      border-top: 1px solid var(--line);
+      font-size: 10px;
+    }
+    .validation-note strong { color: var(--ink); }
+
+    .drawer-scrim {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background: rgba(20, 28, 44, .28);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+    }
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 100;
+      width: min(520px, 94vw);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      transform: translateX(102%);
+      transition: transform .26s cubic-bezier(.2,.8,.2,1);
+    }
+    body.drawer-open { overflow: hidden; }
+    body.drawer-open .drawer-scrim { opacity: 1; pointer-events: auto; }
+    body.drawer-open .drawer { transform: translateX(0); }
+    .drawer-head {
+      padding: 18px 20px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .drawer-head .icon-button { flex: 0 0 auto; }
+    .drawer-kicker { color: var(--blue); font-size: 10px; font-weight: 800; }
+    .drawer-title { margin: 6px 0 0; font-size: 20px; line-height: 1.35; }
+    .drawer-body { overflow: auto; padding: 0 20px 30px; }
+    .detail-summary {
+      padding: 15px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      border-bottom: 1px solid var(--line);
+    }
+    .detail-section { padding: 19px 0; border-bottom: 1px solid var(--line); }
+    .detail-section:last-child { border-bottom: 0; }
+    .detail-section h3 { margin: 0 0 12px; font-size: 11px; color: var(--muted); }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+    .detail-field span { display: block; color: var(--subtle); font-size: 10px; }
+    .detail-field strong, .detail-field p { display: block; margin: 4px 0 0; font-size: 12px; font-weight: 700; white-space: pre-line; }
+    .detail-field p { color: #3f4b60; font-weight: 500; }
+    .detail-wide { grid-column: 1 / -1; }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .compare-panel { min-height: 155px; padding: 14px; background: var(--surface); }
+    .compare-panel.current { background: #f7faff; }
+    .compare-label { color: var(--muted); font-size: 10px; font-weight: 800; }
+    .compare-status { margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .compare-content { margin: 13px 0 0; color: #3f4b60; font-size: 12px; white-space: pre-line; }
+    .empty-copy { color: var(--subtle); font-style: italic; }
+
+    .toast {
+      position: fixed;
+      left: calc(var(--sidebar) + 30px);
+      bottom: 24px;
+      z-index: 120;
+      padding: 10px 13px;
+      color: #fff;
+      background: #172033;
+      border-radius: 5px;
+      box-shadow: var(--shadow);
+      font-size: 11px;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1120px) {
+      .kpi-band { grid-template-columns: repeat(3, 1fr); }
+      .kpi:nth-child(4) { border-left: 0; border-top: 1px solid var(--line); }
+      .kpi:nth-child(5), .kpi:nth-child(6) { border-top: 1px solid var(--line); }
+      .collab-list { grid-template-columns: repeat(2, 1fr); }
+      .collab-item:nth-child(3n) { border-right: 1px solid var(--line); }
+      .collab-item:nth-child(2n) { border-right: 0; }
+    }
+    @media (max-width: 900px) {
+      :root { --sidebar: 0px; }
+      .sidebar { width: 240px; transform: translateX(-102%); transition: transform .22s ease; box-shadow: var(--shadow); }
+      body.menu-open .sidebar { transform: translateX(0); }
+      .workspace { margin-left: 0; }
+      .mobile-menu { display: grid; }
+      .analysis-grid, .queue-grid { grid-template-columns: 1fr; }
+      .analysis-panel + .analysis-panel, .queue-panel + .queue-panel { border-left: 0; border-top: 1px solid var(--line); }
+      .toast { left: 24px; }
+    }
+    @media (max-width: 680px) {
+      .topbar { height: 58px; padding: 0 16px; }
+      .breadcrumb, .sync-state { display: none; }
+      main { padding: 20px 14px; }
+      .page-head { align-items: flex-start; flex-direction: column; padding-bottom: 18px; }
+      h1 { font-size: 28px; }
+      .week-block { width: 100%; }
+      .control-bar {
+        top: 58px;
+        margin: 0 -14px;
+        padding: 10px 14px;
+        grid-template-columns: 1fr 120px;
+      }
+      .scope-button { grid-column: 1 / -1; }
+      .kpi-band { grid-template-columns: repeat(2, 1fr); }
+      .kpi:nth-child(3), .kpi:nth-child(5) { border-left: 0; }
+      .kpi:nth-child(3) { border-top: 1px solid var(--line); }
+      .status-legend { grid-template-columns: repeat(2, 1fr); }
+      .section-head { align-items: flex-start; }
+      .collab-list { grid-template-columns: 1fr; }
+      .collab-item { border-right: 0; }
+      .task-toolbar { align-items: flex-start; flex-direction: column; }
+      .detail-grid, .compare-grid { grid-template-columns: 1fr; }
+      .compare-grid { gap: 0; }
+      .compare-panel + .compare-panel { border-top: 1px solid var(--line); }
+      .validation-note { align-items: flex-start; flex-direction: column; }
+    }
+    @media print {
+      .sidebar, .topbar, .control-bar, .drawer, .drawer-scrim, .toast { display: none !important; }
+      .workspace { margin: 0; }
+      main { padding: 0; }
+      .section-band, .kpi-band { break-inside: avoid; box-shadow: none; }
+      .table-wrap { max-height: none; overflow: visible; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">WK</div>
+        <div><strong>주간업무 운영센터</strong><small>수탁사업지원팀</small></div>
+      </div>
+      <div class="nav-label">Workspace</div>
+      <nav aria-label="주요 화면">
+        <a class="nav-link active" href="#overview"><i data-lucide="layout-dashboard"></i><span>운영 현황</span></a>
+        <a class="nav-link" href="#attention"><i data-lucide="circle-alert"></i><span>관리 · 마감</span></a>
+        <a class="nav-link" href="#collaboration"><i data-lucide="users"></i><span>협업 현황</span></a>
+        <a class="nav-link" href="#tasks"><i data-lucide="list-checks"></i><span>전체 업무</span></a>
+      </nav>
+      <div class="sidebar-meta">
+        <span>Source of Truth</span>
+        <strong>Google Sheets</strong>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-button mobile-menu" id="menuButton" aria-label="메뉴 열기"><i data-lucide="menu"></i></button>
+          <div class="breadcrumb">주간업무 <span>/</span> <strong>운영 대시보드</strong></div>
+          <div class="sync-state"><span class="sync-dot"></span><span>검증 완료</span></div>
+        </div>
+        <div class="topbar-actions">
+          <button class="icon-button" id="resetButton" aria-label="필터 초기화" title="필터 초기화"><i data-lucide="rotate-ccw"></i></button>
+          <button class="icon-button" id="printButton" aria-label="인쇄" title="인쇄"><i data-lucide="printer"></i></button>
+        </div>
+      </header>
+
+      <main>
+        <section class="page-head" id="overview">
+          <div>
+            <div class="eyebrow" id="modeEyebrow">TEAM OVERVIEW</div>
+            <h1 id="pageTitle">팀 주간업무 현황</h1>
+            <p id="pageDescription">업무 상태, 관리 이슈, 마감 일정과 담당자별 부하를 한 화면에서 확인합니다.</p>
+          </div>
+          <div class="week-block">
+            <span>기준 주차</span>
+            <strong id="weekPeriod">2026.08.24 - 08.28</strong>
+          </div>
+        </section>
+
+        <section class="control-bar" aria-label="대시보드 필터">
+          <label class="search-box">
+            <i data-lucide="search"></i>
+            <input id="searchInput" type="search" autocomplete="off" placeholder="과업명, 진행내용, 담당자 검색" aria-label="업무 검색">
+            <span class="search-hint">/</span>
+          </label>
+          <select class="select-control" id="ownerSelect" aria-label="담당자 선택"></select>
+          <button class="scope-button" id="collabToggle" type="button" aria-pressed="false" disabled>
+            <i data-lucide="user-round-check"></i><span>협업 업무 포함</span>
+          </button>
+        </section>
+
+        <section class="kpi-band" aria-label="핵심 업무 지표">
+          <div class="kpi"><div class="kpi-label">전체 과업</div><div><span class="kpi-value" id="kpiTotal">0</span><span class="kpi-unit">건</span></div><div class="kpi-note" id="kpiTotalNote">유효 업무 기준</div></div>
+          <div class="kpi"><div class="kpi-label">진행중</div><div><span class="kpi-value" id="kpiProgress">0</span><span class="kpi-unit">건</span></div><div class="kpi-note">현재 실행 중</div></div>
+          <div class="kpi"><div class="kpi-label">계획</div><div><span class="kpi-value" id="kpiPlan">0</span><span class="kpi-unit">건</span></div><div class="kpi-note">착수 예정</div></div>
+          <div class="kpi"><div class="kpi-label">완료</div><div><span class="kpi-value" id="kpiDone">0</span><span class="kpi-unit">건</span></div><div class="kpi-note">이번 주 완료 포함</div></div>
+          <div class="kpi"><div class="kpi-label">금주 마감</div><div><span class="kpi-value" id="kpiDue">0</span><span class="kpi-unit">건</span></div><div class="kpi-note">기준 주차 내 마감</div></div>
+          <div class="kpi kpi-alert"><div class="kpi-label">지연</div><div><span class="kpi-value" id="kpiOverdue">0</span><span class="kpi-unit">건</span></div><div class="kpi-note">완료 · 취소 제외</div></div>
+        </section>
+
+        <section class="section-band" aria-labelledby="analysisTitle">
+          <div class="section-head">
+            <div><h2 class="section-title" id="analysisTitle">업무 분포</h2><p class="section-caption">상태 구성과 담당자별 주담당 업무량을 비교합니다.</p></div>
+            <div class="section-meta" id="analysisMeta"></div>
+          </div>
+          <div class="analysis-grid">
+            <div class="analysis-panel">
+              <div class="panel-kicker">상태 구성</div>
+              <div class="status-total" id="statusTotal">0건</div>
+              <div class="stacked-track" id="statusStack" aria-label="상태별 업무 비율"></div>
+              <div class="status-legend" id="statusLegend"></div>
+            </div>
+            <div class="analysis-panel">
+              <div class="panel-kicker">담당자별 주담당 업무</div>
+              <div class="owner-bars" id="ownerBars"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-band" id="attention" aria-label="관리 및 마감 업무">
+          <div class="queue-grid">
+            <div class="queue-panel">
+              <div class="section-head">
+                <div><h2 class="section-title">관리포인트</h2><p class="section-caption">직접 입력 이슈와 자동 감지 항목</p></div>
+                <div class="section-meta" id="attentionCount"></div>
+              </div>
+              <div class="queue-list" id="attentionList"></div>
+            </div>
+            <div class="queue-panel">
+              <div class="section-head">
+                <div><h2 class="section-title">마감 큐</h2><p class="section-caption">지연 · 오늘 · 임박 순 정렬</p></div>
+                <div class="section-meta" id="deadlineCount"></div>
+              </div>
+              <div class="queue-list" id="deadlineList"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-band" id="collaboration">
+          <div class="section-head">
+            <div><h2 class="section-title">팀내 협업 현황</h2><p class="section-caption">주담당 업무량과 별도로 확인하는 협업 참여 업무입니다.</p></div>
+            <div class="section-meta" id="collabCount"></div>
+          </div>
+          <div class="collab-strip"><div class="collab-list" id="collabList"></div></div>
+        </section>
+
+        <section class="section-band" id="tasks">
+          <div class="section-head">
+            <div><h2 class="section-title" id="taskSectionTitle">전체 업무목록</h2><p class="section-caption">행을 선택하면 상세 인스펙터가 열립니다.</p></div>
+            <div class="section-meta">내부 식별값 비노출</div>
+          </div>
+          <div class="task-toolbar">
+            <div class="status-tabs" id="statusTabs"></div>
+            <div class="result-count" id="resultCount"></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <colgroup>
+                <col style="width:28%">
+                <col style="width:9%">
+                <col style="width:9%">
+                <col style="width:10%">
+                <col style="width:28%">
+                <col style="width:10%">
+                <col style="width:6%">
+              </colgroup>
+              <thead>
+                <tr><th>과업명</th><th>담당자</th><th>상태</th><th>진행률</th><th>이번주 진행 / 계획</th><th>마감</th><th>관리</th></tr>
+              </thead>
+              <tbody id="taskBody"></tbody>
+            </table>
+            <div class="table-empty" id="tableEmpty" hidden>조건에 맞는 업무가 없습니다.</div>
+          </div>
+          <div class="validation-note">
+            <span><strong>데이터 검증</strong> 유효 업무 <span id="validCount">0</span>건 · 제외 <span id="excludedCount">0</span>건</span>
+            <span>Google Sheets 기준 · <span id="generatedAt"></span></span>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="drawer-scrim" id="drawerScrim"></div>
+  <aside class="drawer" id="detailDrawer" aria-modal="true" aria-labelledby="drawerTitle" role="dialog">
+    <div class="drawer-head">
+      <div><div class="drawer-kicker" id="drawerKicker">과업 상세</div><h2 class="drawer-title" id="drawerTitle"></h2></div>
+      <button class="icon-button" id="drawerClose" aria-label="상세 닫기"><i data-lucide="x"></i></button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </aside>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    const DATA = {"meta":{"week":"2026-08-24","period":"2026.08.24 - 08.28","generatedAt":"2026-08-25 수동 실행","excluded":6},"tasks":[{"detailKey":"2026-08-24|오아-260810-004","kind":"","owner":"오정아","collaborators":"","category":"전략사업","area":"이주배경 모델개발","title":"연구용역비 잔금 지급","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"80%","pastContent":"전자계산서 발행 후 지출결의진행","status":"진행중","currentProgress":"100%","currentPlan":"","nextAction":"","managementGrade":"","managementPoint":"","issue":"최종본 확정 후 진행","external":"","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|오아-260810-005","kind":"","owner":"오정아","collaborators":"","category":"전략사업","area":"이주배경 모델개발","title":"콘텐츠 개발 업체 연구용역 체결 준비","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"50%","pastContent":"과업지시서 수정, 용역계약체결 관련 법무검토 진행","status":"진행중","currentProgress":"50%","currentPlan":"과업지시서 1차 수정본 내부검토 완료 후 업체 발송  \n","nextAction":"","managementGrade":"","managementPoint":"","issue":"사회적기업·여성기업 수의계약 요건 검토 필요","external":"자람패밀리","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|오아-260824-001","kind":"신규","owner":"오정아","collaborators":"","category":"전략사업","area":"이주배경 모델개발","title":"콘텐츠 개발 업체 연구용역 체결 준비","startDate":"","dueDate":"","pastStatus":"","pastProgress":"","pastContent":"","status":"진행중","currentProgress":"50%","currentPlan":"용역계약체결 관련 법무검토 진행","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|오아-260824-002","kind":"신규","owner":"오정아","collaborators":"","category":"전략사업","area":"이주배경 모델개발","title":"SLG 발표자료 준비","startDate":"","dueDate":"","pastStatus":"","pastProgress":"","pastContent":"","status":"진행중","currentProgress":"50%","currentPlan":"SLG 발표자료 작성을 위한 초안작성 완료. \n팀장님 검토 후 자료 작성 진행 ","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|오아-260810-007","kind":"","owner":"오정아","collaborators":"","category":"전략사업","area":"이주배경 모델개발","title":"ESG부문 협업 F/U","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"","pastContent":"F/U","status":"진행중","currentProgress":"","currentPlan":"F/U","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"국내사업기획팀","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|오아-260810-008","kind":"","owner":"오정아","collaborators":"","category":"아동학대예방교육","area":"도담/조손","title":"도담도담 워크북 진행사항 F/U","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"80%","pastContent":"마플샵 1차 입고(100권)사항 확인, 김포시 육아종 교재구입 관련 안내","status":"완료","currentProgress":"100%","currentPlan":"김포시 육아종 매뉴얼북 발송  ","nextAction":"","managementGrade":"","managementPoint":"","issue":"1~2권 추가 제작 및 2027년 상반기 마플샵 입고 시점 검토","external":"아동권리사업팀, 에이치썸","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|오아-260810-009","kind":"","owner":"오정아","collaborators":"","category":"아동학대예방교육","area":"도담/조손","title":"특별한 보호가 필요한 아동 대상 아동권리교육 검토","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"80%","pastContent":"교육신청 기관별 희망일자 조사 ","status":"진행중","currentProgress":"80%","currentPlan":"교육신청 기관별 희망일자 조사 완료 (총83명)\n-서울중부/부천/안산/안산쉼터: 18명\n-울산/울산쉼터: 7명, 충북가위: 14명\n-전북가위: 17명, 대구가위: 14명 \n-부산가위: 13명\n10월 중 교육 일정 확정","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"산하시설","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-001","kind":"","owner":"최현지","collaborators":"","category":"사업관리","area":"아보전","title":"콘텐츠 아카이빙","startDate":"","dueDate":"2026-12-31","pastStatus":"완료","pastProgress":"100%","pastContent":"자료집 시설별 검수 회신 및 스페이스 게시, 단순 아카이빙 건 게시 안내","status":"계획","currentProgress":"","currentPlan":"시설별 아카이빙 게시 자료 모니터링","nextAction":"전체 아카이빙 자료 리스트화(자료집+단순 아카이빙건)","managementGrade":"중간","managementPoint":"","issue":"","external":"","deliverable":"스페이스 게시 자료","detail":"시설별 단순 아카이빙으로 분류한 콘텐츠 게시 모니터링, 전체 게시 완료 시 스페이스 공지사항 내 리스트화","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-002","kind":"","owner":"최현지","collaborators":"","category":"사업관리","area":"아보전","title":"콘텐츠 아카이빙","startDate":"","dueDate":"2026-08-28","pastStatus":"진행중","pastProgress":"80%","pastContent":"아카이빙 결과보고 작성","status":"계획","currentProgress":"","currentPlan":"아카이빙 결과보고 품의","nextAction":"","managementGrade":"중간","managementPoint":"","issue":"","external":"","deliverable":"분석자료","detail":"법인/시설 박람회 비용 분리하여 결산 내역 반영한 후 품의 상신 예정","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-004","kind":"","owner":"최현지","collaborators":"","category":"사업관리","area":"아보전","title":"심층사업 활성화","startDate":"","dueDate":"2026-12-31","pastStatus":"진행중","pastProgress":"20%","pastContent":"심층 활성화 가이드 마련(1차)","status":"진행중","currentProgress":"20%","currentPlan":"가이드 틀 구성","nextAction":"상세 내용 구성","managementGrade":"높음","managementPoint":"","issue":"","external":"","deliverable":"","detail":"영역 관련 기존 가이드 양식 검토하여 가이드 틀 마련","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-005","kind":"","owner":"최현지","collaborators":"","category":"사업관리","area":"아보전","title":"특화사업","startDate":"","dueDate":"2026-12-31","pastStatus":"완료","pastProgress":"100%","pastContent":"특화사업 실적 취합","status":"계획","currentProgress":"","currentPlan":"시설별 특화사업 적용 현황 관리","nextAction":"10월 3분기 실적 모니터링 후 연말 평가회 진행 방식 계획","managementGrade":"낮음","managementPoint":"","issue":"","external":"","deliverable":"","detail":"시설별 특화사업 적용 현황 확인을 위한 전체 취합 관리 서식 마련","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-007","kind":"","owner":"최현지","collaborators":"","category":"실천사례공유회/기타","area":"실천사례공유회","title":"불가리코리아 쉼터지원사업","startDate":"","dueDate":"2026-12-12","pastStatus":"완료","pastProgress":"100%","pastContent":"울산쉼터 개보수 공사 일정 확인 및 ESG 공유","status":"계획","currentProgress":"","currentPlan":"하반기 예산 배부 일정 안내 및 사업 추진 일정 계획 요청","nextAction":"9월 초 울산쉼터 개보수 완료 모니터링, 9월 말 합동 캠프 추진 계획서 취합","managementGrade":"낮음","managementPoint":"","issue":"","external":"ESG","deliverable":"","detail":"9월 말 후원금 잔액(10,000천원) 지급 예정, 10월 초 세부 사업 계획서 ESG측 전달, 12월 2w까지 결과보고 예정","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-008","kind":"","owner":"최현지","collaborators":"","category":"실천사례공유회/기타","area":"실천사례공유회","title":"공모전 사례 접수/내부선별/심사 ","startDate":"","dueDate":"2026-09-17","pastStatus":"완료","pastProgress":"100%","pastContent":"접수건 리스트업 및 오류 검토, 내부 선별 사례 분류 및 검토","status":"진행중","currentProgress":"20%","currentPlan":"심사위원 질의사항 응대, 시설장 월례회의 시 접수 현황 및 평가 관련 안내(자료 작성)","nextAction":"심사위원 질의사항 응대, 심사결과 취합 서식 재정비, 2차 심사위원 사전 안내 메일 발송","managementGrade":"높음","managementPoint":"","issue":"","external":"","deliverable":"","detail":"시설장 대상 사례접수 현황(시설별 노출X), 내부선별 방법 등 안내 예정\n2차(외부) 심사위원 대상 심사 개요, 역할, 요청사항 등 상세 내용 재안내","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-010","kind":"","owner":"최현지","collaborators":"전체","category":"실천사례공유회/기타","area":"실천사례공유회","title":"행사 팀 업무 분장","startDate":"","dueDate":"2026-11-12","pastStatus":"완료","pastProgress":"100%","pastContent":"팀원별 업무분장(안) 공유","status":"계획","currentProgress":"","currentPlan":"행사 전체 일정 구글 캘린더 공유","nextAction":"요청 업무별 상세 역할 및 컨셉 관련 공유(w.팀장님)","managementGrade":"중간","managementPoint":"","issue":"","external":"","deliverable":"","detail":"팀장님 동석하에 세부 업무별 역할 및 컨셉, 진행 계획 공유 회의 진행(TF 컨셉 회의 이후에 요청 예정)","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-011","kind":"","owner":"최현지","collaborators":"","category":"실천사례공유회/기타","area":"실천사례공유회","title":"행사 사전 준비","startDate":"","dueDate":"2026-11-12","pastStatus":"계획","pastProgress":"","pastContent":"","status":"계획","currentProgress":"","currentPlan":"TF 컨셉 회의, 업무 및 역할별 상세 타임테이블 계획","nextAction":"TF 회의 결과 보고 및 팀원 업무분장 과업 준비","managementGrade":"높음","managementPoint":"","issue":"","external":"","deliverable":"","detail":"행사의 전체적 컨셉 논의 및 방향 설정 → 현수막/동영상/이벤트존 구상 → 사전 제작/준비 가능한 업무는 분배 및 추진","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260824-001","kind":"신규","owner":"최현지","collaborators":"","category":"기타","area":"공통 협업","title":"아보전 영역 사례점검 ","startDate":"","dueDate":"2026-09-11","pastStatus":"","pastProgress":"","pastContent":"","status":"계획","currentProgress":"","currentPlan":"사례점검 사전회의 참석(8/27)","nextAction":"사례점검 진행(6개 시설)","managementGrade":"중간","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|김정-260810-001","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"양육코칭 심화 매뉴얼 고도화 연구","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"10%","pastContent":"2단계 연구 계약이행보증보험 증권 수령, 계약 및 착수보고회 품의","status":"진행중","currentProgress":"10%","currentPlan":"2단계 연구 선금 지급 지출(청구서 수령)","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"아동권리보장원, 연구진","deliverable":"매뉴얼/워크북/연구보고서","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-002","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"매뉴얼 가이드 영상 제작 준비","startDate":"","dueDate":"2026-08-24","pastStatus":"계획","pastProgress":"10%","pastContent":"비지오스튜디오 미팅 자료 준비(가이드영상 3편, 변화사례 스토리 편집 1편, 대구 시연영상 촬영/편집 1편), 8/24, 16시","status":"계획","currentProgress":"10%","currentPlan":"비지오스튜디오 미팅 (가이드영상 3편, 변화사례 스토리 편집 1편, 대구 시연영상 촬영/편집 1편), 8/24, 16시","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"연구진, IT팀","deliverable":"가이드 영상 스크립트","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-003","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"FGI 줌회의 ","startDate":"","dueDate":"","pastStatus":"계획","pastProgress":"50%","pastContent":"2차 심화 매뉴얼 연구 특수욕구아동 관련 FGI 줌회의, 8/19, 19시","status":"완료","currentProgress":"100%","currentPlan":"","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"산하 4개센터","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-004","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"착수보고회","startDate":"","dueDate":"2026-08-24","pastStatus":"계획","pastProgress":"0%","pastContent":"착수보고회 자료 취합, 준비","status":"계획","currentProgress":"0%","currentPlan":"착수보고회 (8/24/월, 14시, 서울지역본부)","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"부문3, 대구위탁, 연구진","deliverable":"착수보고회 자료","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260824-001","kind":"신규","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"성과공유회","startDate":"","dueDate":"2026-11-26","pastStatus":"계획","pastProgress":"20%","pastContent":"성과공유회 행사 계획서(보장원 발송용 개요서) 작성","status":"계획","currentProgress":"20%","currentPlan":"성과공유회 행사 계획서(보장원 발송용 개요서) 발송","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-005","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"보조금 잔금 집행 방법 회의","startDate":"","dueDate":"2026-08-12","pastStatus":"계획","pastProgress":"90%","pastContent":"보조금 잔금 집행방법 관련 대구센터 시뮬레이션 기준 안내/대구,충북,전북","status":"계획","currentProgress":"90%","currentPlan":"보조금 잔금 집행방법 사무원 확인","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"사무원","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-006","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"전담인력 스터디\nㄴSCK 산하기관\nㄴ신규 운영기관(경북,대전,제주)","startDate":"","dueDate":"2026-08-12","pastStatus":"계획","pastProgress":"90%","pastContent":"만족도검사 검사지 및 엑셀 코딩양식 업로드","status":"계획","currentProgress":"90%","currentPlan":"-만족도검사 검사지 및 엑셀 코딩양식 업로드\n-신규기관 전담인력 스터디+대구센터+보장원/9월2주차","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"전담인력","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-007","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁","title":"SCK 가정위탁사업 확산/확장 =>전문위탁 고도화","startDate":"","dueDate":"2026-08-10","pastStatus":"계획","pastProgress":"0%","pastContent":"전문위탁&입양전 위탁 관련 보장원 제안 자료 작성, ~8월말","status":"계획","currentProgress":"0%","currentPlan":"전문위탁&입양전 위탁 관련 보장원 제안 자료 작성, ~8월말","nextAction":"보장원 제안서 초안자료 작성","managementGrade":"","managementPoint":"","issue":"","external":"부문장","deliverable":"방향성 보고안","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-008","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁","title":"오픈베이스 후원 자립지원사업 매칭","startDate":"","dueDate":"","pastStatus":"계획","pastProgress":"50%","pastContent":"오픈베이스 26년 지정후원금 관련 매칭 현황표 작성/기사공팀 김혜리매니저 확인","status":"계획","currentProgress":"50%","currentPlan":"오픈베이스 26년 지정후원금 관련 사업 매칭 현황표 작성/기사공 김혜리매니저 확인","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"오픈베이스","deliverable":"결과보고서/AMS 업로드","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-009","kind":"","owner":"김혜정","collaborators":"","category":"통합점검/직무교육","area":"직무교육","title":"선임급교육 결과보고","startDate":"","dueDate":"","pastStatus":"계획","pastProgress":"100%","pastContent":"","status":"계획","currentProgress":"100%","currentPlan":"","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"결과보고서","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김섭-260810-001","kind":"","owner":"김홍섭","collaborators":"","category":"인사/지원 포컬","area":"공통","title":"시설 평가 KPI 취합/분석","startDate":"","dueDate":"2026-08-31","pastStatus":"진행중","pastProgress":"60%","pastContent":"시설 평가 KPI취합 및 분석","status":"진행중","currentProgress":"60%","currentPlan":"시설 평가 KPI취합 및 분석","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"KPI 분석자료","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김섭-260810-002","kind":"","owner":"김홍섭","collaborators":"","category":"인사/지원 포컬","area":"공통","title":"AI 관련 내용 정리","startDate":"","dueDate":"2026-08-26","pastStatus":"진행중","pastProgress":"60%","pastContent":"CEO 보고자료 작성 중","status":"진행중","currentProgress":"60%","currentPlan":"CEO 보고자료 작성 중","nextAction":"내부 보고 (1차)","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"CEO 보고자료","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김섭-260810-003","kind":"","owner":"김홍섭","collaborators":"","category":"인사/지원 포컬","area":"공통","title":"챗봇 TF 운영 준비","startDate":"","dueDate":"2026-08-12","pastStatus":"진행중","pastProgress":"70%","pastContent":"명단 확정 및 1차 모임 일정 공지","status":"완료","currentProgress":"70%","currentPlan":"완료","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김섭-260810-004","kind":"","owner":"김홍섭","collaborators":"","category":"인사/지원 포컬","area":"UP-GLE","title":"팀장 성과/면담관리 홈페이지 제작/테스트","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"90%","pastContent":"홈페이지 배포 준비","status":"진행중","currentProgress":"90%","currentPlan":"팀 테스트 중","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"홈페이지","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김섭-260824-001","kind":"신규","owner":"김홍섭","collaborators":"","category":"인사/지원 포컬","area":"공통","title":"챗봇 KICK-OFF 준비","startDate":"","dueDate":"2026-09-02","pastStatus":"","pastProgress":"","pastContent":"","status":"진행중","currentProgress":"20%","currentPlan":"사전 회의자료 준비","nextAction":"KICK-OFF","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|김섭-260824-002","kind":"신규","owner":"김홍섭","collaborators":"","category":"인사/지원 포컬","area":"공통","title":"부문장 시설 현장 방문 계획 수립","startDate":"","dueDate":"2026-08-17","pastStatus":"진행중","pastProgress":"60%","pastContent":"일정 확정 및 그룹별 일정 수립","status":"완료","currentProgress":"60%","currentPlan":"시설별 방문일정 안내","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"일정 공지","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이혜-260810-002","kind":"","owner":"이은혜","collaborators":"","category":"조직관리/기타지원","area":"산하시설 간담회","title":"법인 검토 사항 3건 후속","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"","pastContent":"","status":"완료","currentProgress":"","currentPlan":"","nextAction":"","managementGrade":"","managementPoint":"","issue":"법인 검토 필요","external":"","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이혜-260810-004","kind":"","owner":"이은혜","collaborators":"","category":"조직관리/기타지원","area":"운영지원","title":"시설 홈페이지 하자보수 모니터링","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"","pastContent":"","status":"진행중","currentProgress":"","currentPlan":"","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이혜-260824-001","kind":"신규","owner":"이은혜","collaborators":"","category":"조직관리/기타지원","area":"시설장회의","title":"6월 영역별 시설장 월례회의","startDate":"","dueDate":"2026-08-31","pastStatus":"진행중","pastProgress":"","pastContent":"안건 취합 및 자료 준비","status":"진행중","currentProgress":"","currentPlan":"8/25(화) 10:30 아보전영역 / 15:00 가위영역\n8/31(월) 결과보고 품의","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|이혜-260824-002","kind":"신규","owner":"이은혜","collaborators":"","category":"조직관리/기타지원","area":"시설장 워크숍","title":"10월 시설장 워크숍","startDate":"","dueDate":"2026-10-30","pastStatus":"진행중","pastProgress":"","pastContent":"","status":"진행중","currentProgress":"","currentPlan":"장소 및 프로그램 리스트업","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|이혜-260824-003","kind":"신규","owner":"이은혜","collaborators":"","category":"조직관리/기타지원","area":"운영지원","title":"수탁사업지원팀 운영지원 챗봇","startDate":"","dueDate":"2026-08-31","pastStatus":"진행 중","pastProgress":"","pastContent":"1차 테스트(팀내)","status":"진행중","currentProgress":"","currentPlan":"1차 테스트 결과 취합 및 보완작업","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|이선-260810-001","kind":"","owner":"이영선","collaborators":"","category":"예산/후원","area":"예산","title":"시설 대외활동비 및 전입금 재원 논의","startDate":"","dueDate":"2026-08-05","pastStatus":"계획","pastProgress":"","pastContent":"법인 2차 추경 간략(안)제출","status":"계획","currentProgress":"","currentPlan":"가정위탁 사례점검 최종 안내 및 기록가이드 최종 검토 및 회의(25일, 시간 미정)","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"재무팀, 인사팀","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-002","kind":"","owner":"이영선","collaborators":"","category":"예산/후원","area":"경영보고","title":"7월 경영보고 취합","startDate":"","dueDate":"2026-08-04","pastStatus":"계획","pastProgress":"","pastContent":"esg 후원 매칭표 통합작성 공유 ","status":"계획","currentProgress":"","currentPlan":"아보전 사례점검 최종 안내(27일, 13시10분)","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"경영보고 취합본","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-003","kind":"","owner":"이영선","collaborators":"","category":"예산/후원","area":"FMS","title":"FMS 시설 예산/결산 등록 항목 취합 및 회신","startDate":"","dueDate":"2026-08-05","pastStatus":"계획","pastProgress":"","pastContent":"1-7월 대체처리 대량 수정 작성","status":"계획","currentProgress":"","currentPlan":"사례점검 / 기관별 사례 추출","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"재무팀","deliverable":"회신자료","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-004","kind":"","owner":"이영선","collaborators":"","category":"예산/후원","area":"추경","title":"법인 2차 추경 준비","startDate":"","dueDate":"2026-08-31","pastStatus":"계획","pastProgress":"","pastContent":"시설 예산서 업로드 관련 재무팀 자료 제출 ","status":"계획","currentProgress":"","currentPlan":"이사회 자료 작성(시설 3차 추경)(28일)","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"추경안","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-005","kind":"","owner":"이영선","collaborators":"","category":"리스크","area":"가정위탁","title":"가정위탁 직원교육 일정 확정 안내","startDate":"","dueDate":"2026-08-06","pastStatus":"계획","pastProgress":"","pastContent":"가정위탁 기록 가이드 최종 회의 자료 취합","status":"계획","currentProgress":"","currentPlan":"가정위탁 직원역량교육 자료 취합 및 보고 ","nextAction":"","managementGrade":"","managementPoint":"","issue":"전북 일정은 법인 직책자 교육일정으로 논의 필요","external":"대구가정위탁, 전북가정위탁","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-006","kind":"","owner":"이영선","collaborators":"","category":"리스크","area":"가정위탁","title":"가정위탁 기록 가이드 의견 취합 및 회의","startDate":"","dueDate":"2026-08-05","pastStatus":"계획","pastProgress":"","pastContent":"사례점검 사례목록 취합 및 기관별 사례 배분","status":"계획","currentProgress":"","currentPlan":"마스마룰즈 후원물품 배포 현황 공유(24일)","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-007","kind":"","owner":"이영선","collaborators":"","category":"리스크","area":"가정위탁","title":"가정위탁 직원교육 계획보고","startDate":"","dueDate":"2026-08-07","pastStatus":"계획","pastProgress":"","pastContent":"인천아보전 & 경인지역본부 리스크 회의 (사례가정 대상자 외 아동 사망의 건)","status":"계획","currentProgress":"","currentPlan":"ESG 사업비 사업계획Lv4 (가정위탁_오픈베이스) 생성 요청 및 예산조정 요청","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"계획보고","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-008","kind":"","owner":"이영선","collaborators":"","category":"리스크","area":"사례점검","title":"사례점검 계획보고","startDate":"","dueDate":"2026-08-10","pastStatus":"계획","pastProgress":"","pastContent":"후원물품 회의 ","status":"계획","currentProgress":"","currentPlan":"대체처리 전표 검토 및 기안","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"계획보고","detail":"","updatedAt":"2026-08-24"}]};
+    const STATUS_ORDER = ['계획', '진행중', '완료', '보류', '취소'];
+    const STATUS_META = {
+      '계획': { cls: 'status-plan', color: '#6f4ad8' },
+      '진행중': { cls: 'status-progress', color: '#2463eb' },
+      '완료': { cls: 'status-done', color: '#0f8a78' },
+      '보류': { cls: 'status-hold', color: '#b36b00' },
+      '취소': { cls: 'status-cancel', color: '#8a94a7' }
+    };
+    const state = { owner: '전체', includeCollab: false, status: '전체', query: '' };
+    const taskMap = new Map(DATA.tasks.map(function(task) { return [task.detailKey, task]; }));
+    const byId = function(id) { return document.getElementById(id); };
+
+    function esc(value) {
+      return String(value == null ? '' : value)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+    function attr(value) { return esc(value); }
+    function splitPeople(value) {
+      return String(value || '').split(',').map(function(v) { return v.trim(); }).filter(Boolean);
+    }
+    function hasCollaborator(task, owner) {
+      const people = splitPeople(task.collaborators);
+      return people.indexOf(owner) >= 0 || people.indexOf('전체') >= 0;
+    }
+    function relation(task) {
+      if (state.owner === '전체' || task.owner === state.owner) return '주담당';
+      return hasCollaborator(task, state.owner) ? '협업' : '';
+    }
+    function primaryScope() {
+      if (state.owner === '전체') return DATA.tasks.slice();
+      return DATA.tasks.filter(function(task) { return task.owner === state.owner; });
+    }
+    function visibleScope() {
+      if (state.owner === '전체') return DATA.tasks.slice();
+      return DATA.tasks.filter(function(task) {
+        return task.owner === state.owner || (state.includeCollab && hasCollaborator(task, state.owner));
+      });
+    }
+    function tableScope() {
+      const q = state.query.trim().toLowerCase();
+      return visibleScope().filter(function(task) {
+        if (state.status !== '전체' && task.status !== state.status) return false;
+        if (!q) return true;
+        return [task.title, task.currentPlan, task.nextAction, task.owner, task.collaborators, task.category, task.area]
+          .join(' ').toLowerCase().indexOf(q) >= 0;
+      });
+    }
+    function parseDate(value) {
+      if (!value) return null;
+      const d = new Date(value + 'T00:00:00');
+      return Number.isNaN(d.getTime()) ? null : d;
+    }
+    function dayDiff(dateValue) {
+      const due = parseDate(dateValue);
+      const base = parseDate(DATA.meta.week);
+      if (!due || !base) return null;
+      return Math.round((due - base) / 86400000);
+    }
+    function dueInfo(task) {
+      if (!task.dueDate || task.status === '완료' || task.status === '취소') return null;
+      const diff = dayDiff(task.dueDate);
+      if (diff == null) return null;
+      if (diff < 0) return { label: '지연', cls: 'due-over', rank: 0, diff: diff };
+      if (diff === 0) return { label: '오늘 마감', cls: 'due-today', rank: 1, diff: diff };
+      if (diff <= 3) return { label: '임박', cls: 'due-soon', rank: 2, diff: diff };
+      return { label: '예정', cls: 'due-later', rank: 3, diff: diff };
+    }
+    function inWeek(task) {
+      const diff = dayDiff(task.dueDate);
+      return diff != null && diff >= 0 && diff <= 4 && task.status !== '완료' && task.status !== '취소';
+    }
+    function progressNumber(value) {
+      const n = Number(String(value || '').replace('%', '').trim());
+      return Number.isFinite(n) ? Math.max(0, Math.min(100, n)) : null;
+    }
+    function statusBadge(status) {
+      const meta = STATUS_META[status] || STATUS_META['취소'];
+      return '<span class="badge ' + meta.cls + '">' + esc(status) + '</span>';
+    }
+    function dueBadge(info) {
+      return info ? '<span class="badge ' + info.cls + '">' + esc(info.label) + '</span>' : '';
+    }
+    function icons() {
+      if (window.lucide) window.lucide.createIcons({ attrs: { 'stroke-width': 1.8 } });
+    }
+    function openTask(key) {
+      const task = taskMap.get(key);
+      if (!task) return;
+      byId('drawerTitle').textContent = task.title;
+      byId('drawerKicker').textContent = task.owner + ' · ' + (task.area || task.category || '과업 상세');
+      byId('drawerBody').innerHTML = detailMarkup(task);
+      document.body.classList.add('drawer-open');
+      byId('drawerClose').focus();
+      icons();
+    }
+    function closeTask() {
+      document.body.classList.remove('drawer-open');
+    }
+    function field(label, value, wide) {
+      if (!value) return '';
+      return '<div class="detail-field' + (wide ? ' detail-wide' : '') + '"><span>' + esc(label) + '</span><p>' + esc(value) + '</p></div>';
+    }
+    function section(title, content) {
+      return content ? '<section class="detail-section"><h3>' + esc(title) + '</h3>' + content + '</section>' : '';
+    }
+    function detailMarkup(task) {
+      const rel = relation(task);
+      const summary = statusBadge(task.status)
+        + (task.kind === '신규' ? '<span class="badge kind-new">신규</span>' : '')
+        + (rel === '협업' ? '<span class="badge relation-collab">협업 업무</span>' : '');
+      const base = [
+        field('담당자', task.owner),
+        field('팀내 협업자', task.collaborators),
+        field('대분류', task.category),
+        field('사업 / 영역', task.area),
+        field('시작일', task.startDate),
+        field('마감일', task.dueDate)
+      ].join('');
+      const compare = '<div class="compare-grid">'
+        + '<div class="compare-panel"><div class="compare-label">지난주</div><div class="compare-status">'
+        + (task.pastStatus ? statusBadge(task.pastStatus) : '<span class="empty-copy">기록 없음</span>')
+        + '<strong>' + esc(task.pastProgress) + '</strong></div><p class="compare-content">'
+        + esc(task.pastContent || '주요내용 기록 없음') + '</p></div>'
+        + '<div class="compare-panel current"><div class="compare-label">이번주</div><div class="compare-status">'
+        + statusBadge(task.status) + '<strong>' + esc(task.currentProgress) + '</strong></div><p class="compare-content">'
+        + esc(task.currentPlan || '진행 / 계획 입력 없음') + '</p></div></div>';
+      const week = '<div class="detail-grid">' + field('다음 액션', task.nextAction, true) + '</div>';
+      const manage = '<div class="detail-grid">'
+        + field('관리등급', task.managementGrade)
+        + field('관리포인트', task.managementPoint, true)
+        + field('이슈 / 지원필요', task.issue, true) + '</div>';
+      const collab = '<div class="detail-grid">'
+        + field('외부 협업 / 관련부서', task.external, true)
+        + field('산출물 / 링크', task.deliverable, true)
+        + field('상세내용', task.detail, true) + '</div>';
+      return '<div class="detail-summary">' + summary + '</div>'
+        + section('기본정보', '<div class="detail-grid">' + base + '</div>')
+        + section('지난주 ↔ 이번주', compare)
+        + (task.nextAction ? section('다음 단계', week) : '')
+        + ((task.managementGrade || task.managementPoint || task.issue) ? section('관리정보', manage) : '')
+        + ((task.external || task.deliverable || task.detail) ? section('협업 및 산출물', collab) : '');
+    }
+    function taskButton(task, inner, className) {
+      return '<button class="' + className + '" type="button" data-key="' + attr(task.detailKey) + '">' + inner + '</button>';
+    }
+    function bindTaskButtons(root) {
+      root.querySelectorAll('[data-key]').forEach(function(node) {
+        node.addEventListener('click', function() { openTask(node.getAttribute('data-key')); });
+      });
+    }
+    function attentionTasks(scope) {
+      return scope.filter(function(task) {
+        const overdue = dueInfo(task);
+        return task.managementPoint || task.managementGrade === '높음' || task.issue || (overdue && overdue.label === '지연');
+      }).sort(function(a, b) {
+        const as = (a.managementGrade === '높음' ? 0 : 1) + (dueInfo(a) && dueInfo(a).label === '지연' ? -1 : 0);
+        const bs = (b.managementGrade === '높음' ? 0 : 1) + (dueInfo(b) && dueInfo(b).label === '지연' ? -1 : 0);
+        return as - bs;
+      });
+    }
+    function renderHeader() {
+      const personal = state.owner !== '전체';
+      byId('modeEyebrow').textContent = personal ? 'PERSONAL DASHBOARD' : 'TEAM OVERVIEW';
+      byId('pageTitle').textContent = personal ? state.owner + ' 개인 대시보드' : '팀 주간업무 현황';
+      byId('pageDescription').textContent = personal
+        ? state.owner + '의 주담당 업무를 기준으로 상태, 관리포인트와 마감 일정을 보여줍니다.'
+        : '업무 상태, 관리 이슈, 마감 일정과 담당자별 부하를 한 화면에서 확인합니다.';
+      byId('collabToggle').disabled = !personal;
+      byId('taskSectionTitle').textContent = personal ? state.owner + ' 업무목록' : '전체 업무목록';
+    }
+    function renderKpis(scope) {
+      const counts = countStatuses(scope);
+      byId('kpiTotal').textContent = scope.length;
+      byId('kpiProgress').textContent = counts['진행중'] || 0;
+      byId('kpiPlan').textContent = counts['계획'] || 0;
+      byId('kpiDone').textContent = counts['완료'] || 0;
+      byId('kpiDue').textContent = scope.filter(inWeek).length;
+      byId('kpiOverdue').textContent = scope.filter(function(task) {
+        const info = dueInfo(task); return info && info.label === '지연';
+      }).length;
+      byId('kpiTotalNote').textContent = state.owner === '전체' ? '유효 업무 기준' : '주담당 업무 기준';
+    }
+    function countStatuses(scope) {
+      return scope.reduce(function(acc, task) {
+        acc[task.status] = (acc[task.status] || 0) + 1;
+        return acc;
+      }, {});
+    }
+    function renderAnalysis(scope) {
+      const counts = countStatuses(scope);
+      const total = scope.length || 1;
+      byId('statusTotal').textContent = scope.length + '건';
+      byId('analysisMeta').textContent = state.owner === '전체' ? '팀 전체 주담당 기준' : state.owner + ' 주담당 기준';
+      byId('statusStack').innerHTML = STATUS_ORDER.map(function(status) {
+        const value = counts[status] || 0;
+        if (!value) return '';
+        return '<span class="stacked-segment" title="' + status + ' ' + value + '건" style="width:'
+          + ((value / total) * 100) + '%;background:' + STATUS_META[status].color + '"></span>';
+      }).join('');
+      byId('statusLegend').innerHTML = STATUS_ORDER.map(function(status) {
+        return '<div class="legend-item"><span class="legend-dot" style="background:' + STATUS_META[status].color
+          + '"></span><span class="legend-label">' + status + '</span><span class="legend-value">'
+          + (counts[status] || 0) + '</span></div>';
+      }).join('');
+      const owners = Array.from(new Set(DATA.tasks.map(function(task) { return task.owner; })));
+      const ownerCounts = owners.map(function(owner) {
+        return { owner: owner, count: DATA.tasks.filter(function(task) { return task.owner === owner; }).length };
+      }).filter(function(item) { return state.owner === '전체' || item.owner === state.owner; });
+      const max = Math.max.apply(null, ownerCounts.map(function(item) { return item.count; }).concat([1]));
+      byId('ownerBars').innerHTML = ownerCounts.map(function(item) {
+        const active = state.owner === item.owner;
+        return '<div class="owner-row" style="' + (active ? 'font-weight:800' : '') + '"><span class="owner-name">'
+          + esc(item.owner) + '</span><span class="bar-track"><span class="bar-fill" style="width:'
+          + ((item.count / max) * 100) + '%;' + (active ? 'background:#0f8a78' : '') + '"></span></span>'
+          + '<span class="owner-value">' + item.count + '</span></div>';
+      }).join('');
+    }
+    function renderAttention(scope) {
+      const attention = attentionTasks(scope);
+      byId('attentionCount').textContent = attention.length + '건';
+      if (!attention.length) {
+        byId('attentionList').innerHTML = '<div class="queue-empty">표시할 관리포인트가 없습니다.</div>';
+      } else {
+        byId('attentionList').innerHTML = attention.map(function(task) {
+          const info = dueInfo(task);
+          const automatic = !task.managementPoint && !task.issue && info && info.label === '지연';
+          const desc = task.managementPoint || task.issue || ('마감일 ' + task.dueDate + ' 경과');
+          const badge = automatic ? '<span class="badge due-over">자동 감지</span>'
+            : (task.managementGrade ? '<span class="badge status-hold">' + esc(task.managementGrade) + '</span>' : '');
+          return taskButton(task,
+            '<span class="queue-icon"><i data-lucide="circle-alert"></i></span><span><span class="queue-title">'
+            + esc(task.title) + '</span><span class="queue-desc">' + esc(desc) + '</span></span>'
+            + '<span class="queue-side">' + badge + '<span class="task-sub">' + esc(task.owner) + '</span></span>',
+            'queue-item');
+        }).join('');
+      }
+      bindTaskButtons(byId('attentionList'));
+    }
+    function renderDeadlines(scope) {
+      const deadlines = scope.filter(function(task) { return dueInfo(task); }).sort(function(a, b) {
+        const ai = dueInfo(a), bi = dueInfo(b);
+        return ai.rank - bi.rank || ai.diff - bi.diff;
+      });
+      byId('deadlineCount').textContent = deadlines.length + '건';
+      if (!deadlines.length) {
+        byId('deadlineList').innerHTML = '<div class="queue-empty">예정된 마감 업무가 없습니다.</div>';
+      } else {
+        byId('deadlineList').innerHTML = deadlines.map(function(task) {
+          const info = dueInfo(task);
+          return taskButton(task,
+            '<span class="queue-icon due"><i data-lucide="calendar-clock"></i></span><span><span class="queue-title">'
+            + esc(task.title) + '</span><span class="queue-desc">' + esc(task.owner) + ' · ' + esc(task.dueDate)
+            + '</span></span><span class="queue-side">' + dueBadge(info) + statusBadge(task.status) + '</span>',
+            'queue-item');
+        }).join('');
+      }
+      bindTaskButtons(byId('deadlineList'));
+    }
+    function renderCollaboration() {
+      let collabs = DATA.tasks.filter(function(task) { return splitPeople(task.collaborators).length > 0; });
+      if (state.owner !== '전체') {
+        collabs = DATA.tasks.filter(function(task) { return task.owner !== state.owner && hasCollaborator(task, state.owner); });
+      }
+      byId('collabCount').textContent = collabs.length + '건';
+      if (!collabs.length) {
+        byId('collabList').innerHTML = '<div class="queue-empty">표시할 협업 업무가 없습니다.</div>';
+      } else {
+        byId('collabList').innerHTML = collabs.map(function(task) {
+          const people = task.collaborators === '전체' ? '팀 전체 협업' : task.collaborators + ' 협업';
+          return taskButton(task, '<strong>' + esc(task.title) + '</strong><span>' + esc(task.owner) + ' 주담당 · '
+            + esc(people) + '</span>', 'collab-item');
+        }).join('');
+      }
+      bindTaskButtons(byId('collabList'));
+    }
+    function renderStatusTabs() {
+      const options = ['전체'].concat(STATUS_ORDER);
+      byId('statusTabs').innerHTML = options.map(function(status) {
+        return '<button class="status-tab' + (state.status === status ? ' active' : '') + '" type="button" data-status="'
+          + status + '">' + status + '</button>';
+      }).join('');
+      byId('statusTabs').querySelectorAll('[data-status]').forEach(function(button) {
+        button.addEventListener('click', function() {
+          state.status = button.getAttribute('data-status');
+          renderTasks();
+          renderStatusTabs();
+        });
+      });
+    }
+    function renderTasks() {
+      const tasks = tableScope();
+      byId('resultCount').textContent = tasks.length + '건 표시';
+      byId('tableEmpty').hidden = tasks.length > 0;
+      byId('taskBody').innerHTML = tasks.map(function(task) {
+        const progress = progressNumber(task.currentProgress);
+        const info = dueInfo(task);
+        const rel = relation(task);
+        const management = task.managementGrade || task.managementPoint || task.issue || (info && info.label === '지연');
+        return '<tr data-key="' + attr(task.detailKey) + '" tabindex="0" aria-label="' + attr(task.title + ' 상세 열기') + '">'
+          + '<td><div class="task-main">' + esc(task.title) + '</div><div class="task-sub">' + esc(task.category)
+          + (task.area ? ' · ' + esc(task.area) : '') + (task.kind === '신규' ? ' · 신규' : '') + '</div></td>'
+          + '<td><strong>' + esc(task.owner) + '</strong>' + (rel === '협업' ? '<div class="task-sub">협업 참여</div>' : '') + '</td>'
+          + '<td>' + statusBadge(task.status) + '</td>'
+          + '<td><div class="progress-wrap"><span class="progress-label">' + esc(task.currentProgress || '—') + '</span>'
+          + (progress == null ? '' : '<span class="progress-track"><span class="progress-fill" style="width:' + progress + '%"></span></span>')
+          + '</div></td>'
+          + '<td><div class="task-plan">' + esc(task.currentPlan || task.nextAction || '입력 없음') + '</div></td>'
+          + '<td class="due-cell">' + esc(task.dueDate || '—') + (info ? '<small>' + info.label + '</small>' : '') + '</td>'
+          + '<td>' + (management ? '<span class="badge status-hold">확인</span>' : '—') + '</td></tr>';
+      }).join('');
+      byId('taskBody').querySelectorAll('tr[data-key]').forEach(function(row) {
+        const open = function() { openTask(row.getAttribute('data-key')); };
+        row.addEventListener('click', open);
+        row.addEventListener('keydown', function(event) {
+          if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); }
+        });
+      });
+    }
+    function renderAll() {
+      const primary = primaryScope();
+      renderHeader();
+      renderKpis(primary);
+      renderAnalysis(primary);
+      renderAttention(primary);
+      renderDeadlines(primary);
+      renderCollaboration();
+      renderStatusTabs();
+      renderTasks();
+      icons();
+    }
+    function setup() {
+      byId('weekPeriod').textContent = DATA.meta.period;
+      byId('validCount').textContent = DATA.tasks.length;
+      byId('excludedCount').textContent = DATA.meta.excluded;
+      byId('generatedAt').textContent = DATA.meta.generatedAt;
+      const owners = Array.from(new Set(DATA.tasks.map(function(task) { return task.owner; })));
+      byId('ownerSelect').innerHTML = '<option value="전체">담당자 · 전체</option>' + owners.map(function(owner) {
+        return '<option value="' + attr(owner) + '">' + esc(owner) + '</option>';
+      }).join('');
+      byId('ownerSelect').addEventListener('change', function(event) {
+        state.owner = event.target.value;
+        state.includeCollab = false;
+        byId('collabToggle').setAttribute('aria-pressed', 'false');
+        renderAll();
+      });
+      byId('collabToggle').addEventListener('click', function() {
+        state.includeCollab = !state.includeCollab;
+        this.setAttribute('aria-pressed', String(state.includeCollab));
+        renderTasks();
+        showToast(state.includeCollab ? '협업 참여 업무를 함께 표시합니다.' : '주담당 업무만 표시합니다.');
+      });
+      byId('searchInput').addEventListener('input', function(event) {
+        state.query = event.target.value;
+        renderTasks();
+      });
+      byId('resetButton').addEventListener('click', resetFilters);
+      byId('printButton').addEventListener('click', function() { window.print(); });
+      byId('drawerClose').addEventListener('click', closeTask);
+      byId('drawerScrim').addEventListener('click', closeTask);
+      byId('menuButton').addEventListener('click', function() { document.body.classList.toggle('menu-open'); });
+      document.querySelectorAll('.nav-link').forEach(function(link) {
+        link.addEventListener('click', function() { document.body.classList.remove('menu-open'); });
+      });
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') { closeTask(); document.body.classList.remove('menu-open'); }
+        if (event.key === '/' && document.activeElement !== byId('searchInput')) {
+          event.preventDefault(); byId('searchInput').focus();
+        }
+      });
+      renderAll();
+    }
+    function resetFilters() {
+      state.owner = '전체'; state.includeCollab = false; state.status = '전체'; state.query = '';
+      byId('ownerSelect').value = '전체';
+      byId('searchInput').value = '';
+      byId('collabToggle').setAttribute('aria-pressed', 'false');
+      renderAll();
+      showToast('필터를 초기화했습니다.');
+    }
+    let toastTimer;
+    function showToast(message) {
+      clearTimeout(toastTimer);
+      byId('toast').textContent = message;
+      byId('toast').classList.add('show');
+      toastTimer = setTimeout(function() { byId('toast').classList.remove('show'); }, 2200);
+    }
+    setup();
+  </script>
+</body>
+</html>
+
