@@ -8,27 +8,27 @@
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
   <style>
     :root {
-      --ink: #172033;
-      --muted: #657087;
-      --subtle: #8a94a7;
-      --line: #dfe4ec;
-      --line-strong: #c8d0dc;
-      --canvas: #f3f5f8;
+      --ink: #24191c;
+      --muted: #6f6266;
+      --subtle: #96878b;
+      --line: #eadcdf;
+      --line-strong: #d9c7cb;
+      --canvas: #f6f3f4;
       --surface: #ffffff;
-      --surface-soft: #f8fafc;
-      --blue: #2463eb;
-      --blue-soft: #eaf1ff;
-      --teal: #0f8a78;
-      --teal-soft: #e4f6f2;
-      --amber: #b36b00;
-      --amber-soft: #fff3d6;
-      --red: #c83b4d;
+      --surface-soft: #fff7f8;
+      --blue: #b42336;
+      --blue-soft: #fff0f2;
+      --teal: #475467;
+      --teal-soft: #f2f4f7;
+      --amber: #8a4b12;
+      --amber-soft: #fff4e8;
+      --red: #b42336;
       --red-soft: #fff0f2;
-      --violet: #6f4ad8;
-      --violet-soft: #f1edff;
+      --violet: #7a5360;
+      --violet-soft: #f7eef1;
       --sidebar: 232px;
       --radius: 6px;
-      --shadow: 0 18px 50px rgba(30, 44, 72, .14);
+      --shadow: 0 18px 50px rgba(91, 24, 36, .15);
       --font: Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
     }
 
@@ -47,7 +47,7 @@
     button, input, select { font: inherit; letter-spacing: 0; }
     button { color: inherit; }
     a { color: inherit; }
-    :focus-visible { outline: 3px solid rgba(36, 99, 235, .22); outline-offset: 2px; }
+    :focus-visible { outline: 3px solid rgba(180, 35, 54, .24); outline-offset: 2px; }
     [hidden] { display: none !important; }
 
     .app-shell { min-height: 100vh; }
@@ -57,8 +57,8 @@
       z-index: 30;
       width: var(--sidebar);
       padding: 20px 16px;
-      color: #dce5f6;
-      background: #182238;
+      color: #fff4f5;
+      background: #8f1425;
       border-right: 1px solid rgba(255,255,255,.08);
       display: flex;
       flex-direction: column;
@@ -75,16 +75,16 @@
       display: grid;
       place-items: center;
       background: #fff;
-      color: #182238;
+      color: #8f1425;
       border-radius: 5px;
       font-weight: 800;
       font-size: 13px;
     }
     .brand strong { display: block; color: #fff; font-size: 14px; }
-    .brand small { display: block; margin-top: 2px; color: #93a1ba; font-size: 11px; }
+    .brand small { display: block; margin-top: 2px; color: #f0c7ce; font-size: 11px; }
     .nav-label {
       padding: 8px 10px;
-      color: #73829d;
+      color: #dcaab3;
       font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
@@ -99,7 +99,7 @@
       border: 0;
       border-radius: 5px;
       background: transparent;
-      color: #aebad0;
+      color: #f4d8dd;
       cursor: pointer;
       text-decoration: none;
       transition: background .16s ease, color .16s ease, transform .16s ease;
@@ -112,8 +112,8 @@
       padding: 14px 10px 4px;
       border-top: 1px solid rgba(255,255,255,.1);
     }
-    .sidebar-meta span { display: block; color: #72819c; font-size: 10px; }
-    .sidebar-meta strong { display: block; margin-top: 3px; color: #cbd5e7; font-size: 12px; }
+    .sidebar-meta span { display: block; color: #e7b8c0; font-size: 10px; }
+    .sidebar-meta strong { display: block; margin-top: 3px; color: #fff; font-size: 12px; }
 
     .workspace { min-height: 100vh; margin-left: var(--sidebar); }
     .topbar {
@@ -138,12 +138,12 @@
       align-items: center;
       gap: 6px;
       padding-left: 10px;
-      color: var(--teal);
+      color: var(--red);
       font-size: 11px;
       font-weight: 700;
       border-left: 1px solid var(--line);
     }
-    .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 4px var(--teal-soft); }
+    .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 4px var(--red-soft); }
     .icon-button {
       width: 36px;
       height: 36px;
@@ -184,7 +184,7 @@
       display: grid;
       grid-template-columns: minmax(240px, 1fr) 210px auto;
       gap: 10px;
-      background: rgba(243,245,248,.94);
+      background: rgba(246,243,244,.96);
       backdrop-filter: blur(12px);
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
@@ -235,7 +235,7 @@
       cursor: pointer;
       white-space: nowrap;
     }
-    .scope-button[aria-pressed="true"] { color: var(--blue); border-color: #9db9f8; background: var(--blue-soft); }
+    .scope-button[aria-pressed="true"] { color: var(--red); border-color: #dca3ad; background: var(--red-soft); }
     .scope-button:disabled { opacity: .45; cursor: not-allowed; }
     .scope-button svg { width: 16px; height: 16px; }
 
@@ -254,11 +254,13 @@
       position: relative;
     }
     .kpi + .kpi { border-left: 1px solid var(--line); }
-    .kpi-label { color: var(--muted); font-size: 11px; font-weight: 700; }
-    .kpi-value { margin-top: 7px; font-size: 28px; font-weight: 800; line-height: 1; }
+    .kpi-label { color: var(--muted); font-size: 12px; font-weight: 800; }
+    .kpi-value { margin-top: 8px; font-size: 30px; font-weight: 850; line-height: 1; }
     .kpi-unit { margin-left: 3px; color: var(--subtle); font-size: 11px; font-weight: 600; }
     .kpi-note { margin-top: 8px; color: var(--subtle); font-size: 10px; }
-    .kpi-alert .kpi-value { color: var(--red); }
+    .kpi:nth-child(2) .kpi-value, .kpi-alert .kpi-value { color: var(--red); }
+    .kpi:nth-child(2) { box-shadow: inset 0 3px 0 var(--red); }
+    .kpi:nth-child(6) { background: #fff9fa; }
 
     .section-band {
       margin-top: 24px;
@@ -275,6 +277,7 @@
       justify-content: space-between;
       gap: 18px;
       border-bottom: 1px solid var(--line);
+      box-shadow: inset 3px 0 0 var(--red);
     }
     .section-title { margin: 0; font-size: 14px; font-weight: 800; }
     .section-caption { margin: 3px 0 0; color: var(--muted); font-size: 11px; }
@@ -302,7 +305,7 @@
     .owner-row { display: grid; grid-template-columns: 54px 1fr 28px; gap: 10px; align-items: center; }
     .owner-name { color: var(--muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .bar-track { height: 8px; background: #edf0f5; border-radius: 2px; overflow: hidden; }
-    .bar-fill { height: 100%; background: var(--blue); border-radius: 2px; transition: width .35s ease; }
+    .bar-fill { height: 100%; background: var(--red); border-radius: 2px; transition: width .35s ease; }
     .owner-value { text-align: right; font-size: 11px; font-weight: 800; }
 
     .queue-grid { display: grid; grid-template-columns: 1fr 1fr; }
@@ -332,8 +335,8 @@
       display: grid;
       place-items: center;
       border-radius: 5px;
-      background: var(--amber-soft);
-      color: var(--amber);
+      background: var(--red-soft);
+      color: var(--red);
     }
     .queue-icon.due { background: var(--red-soft); color: var(--red); }
     .queue-icon svg { width: 16px; height: 16px; }
@@ -352,17 +355,17 @@
       font-weight: 800;
       white-space: nowrap;
     }
-    .status-plan { color: var(--violet); background: var(--violet-soft); }
-    .status-progress { color: var(--blue); background: var(--blue-soft); }
-    .status-done { color: var(--teal); background: var(--teal-soft); }
-    .status-hold { color: var(--amber); background: var(--amber-soft); }
+    .status-plan { color: #6f515a; background: #f7eef1; border: 1px solid #ead5db; }
+    .status-progress { color: #fff; background: var(--red); }
+    .status-done { color: #344054; background: #f2f4f7; border: 1px solid #d0d5dd; }
+    .status-hold { color: #7b303c; background: #f9e7ea; border: 1px solid #edc9cf; }
     .status-cancel { color: var(--muted); background: #edf0f4; }
     .due-over { color: var(--red); background: var(--red-soft); }
     .due-today { color: var(--red); background: var(--red-soft); }
-    .due-soon { color: var(--amber); background: var(--amber-soft); }
-    .due-later { color: var(--blue); background: var(--blue-soft); }
-    .kind-new { color: var(--blue); border: 1px solid #bad0ff; background: transparent; }
-    .relation-collab { color: var(--teal); background: var(--teal-soft); }
+    .due-soon { color: #8a4b12; background: #fff4e8; }
+    .due-later { color: #5e5256; background: #f5f1f2; }
+    .kind-new { color: var(--red); border: 1px solid #dca3ad; background: #fff; }
+    .relation-collab { color: #5e3a43; background: #f7eef1; }
 
     .collab-strip { padding: 0; }
     .collab-list { display: grid; grid-template-columns: repeat(3, 1fr); }
@@ -402,42 +405,43 @@
       white-space: nowrap;
     }
     .status-tab:hover { background: var(--surface-soft); }
-    .status-tab.active { color: var(--blue); background: var(--blue-soft); font-weight: 800; }
+    .status-tab.active { color: #fff; background: var(--red); font-weight: 800; }
     .result-count { color: var(--muted); font-size: 11px; white-space: nowrap; }
     .table-wrap { overflow: auto; max-height: 720px; }
     table { width: 100%; min-width: 1060px; border-collapse: collapse; table-layout: fixed; }
-    thead { position: sticky; top: 0; z-index: 5; background: #f8fafc; }
+    thead { position: sticky; top: 0; z-index: 5; background: #fff7f8; }
     th {
       height: 40px;
       padding: 0 12px;
       color: var(--muted);
       border-bottom: 1px solid var(--line-strong);
       text-align: left;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 800;
     }
     td {
-      padding: 12px;
+      padding: 15px 12px;
       border-bottom: 1px solid var(--line);
       vertical-align: top;
-      font-size: 11px;
+      font-size: 12px;
     }
     tbody tr { cursor: pointer; transition: background .14s ease, box-shadow .14s ease; }
-    tbody tr:hover { background: #f7faff; box-shadow: inset 3px 0 0 var(--blue); }
-    .task-main { font-size: 12px; font-weight: 800; line-height: 1.45; }
-    .task-sub { margin-top: 4px; color: var(--muted); font-size: 10px; }
+    tbody tr:hover { background: #fff7f8; box-shadow: inset 3px 0 0 var(--red); }
+    .task-main { font-size: 13px; font-weight: 800; line-height: 1.5; }
+    .task-sub { margin-top: 5px; color: var(--muted); font-size: 11px; }
     .task-plan {
-      color: #3e4a60;
+      color: #4f4548;
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 3;
       overflow: hidden;
       white-space: pre-line;
+      line-height: 1.55;
     }
     .progress-wrap { display: grid; gap: 6px; min-width: 72px; }
     .progress-label { font-weight: 800; }
-    .progress-track { height: 5px; background: #e9edf3; border-radius: 2px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--blue); }
+    .progress-track { height: 6px; background: #f0e3e6; border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--red); }
     .due-cell { white-space: nowrap; }
     .due-cell small { display: block; margin-top: 4px; color: var(--muted); }
     .table-empty { padding: 50px 20px; text-align: center; color: var(--muted); }
@@ -469,7 +473,7 @@
       top: 0;
       right: 0;
       z-index: 100;
-      width: min(520px, 94vw);
+      width: min(560px, 94vw);
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -487,6 +491,7 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 18px;
+      border-top: 4px solid var(--red);
       border-bottom: 1px solid var(--line);
     }
     .drawer-head .icon-button { flex: 0 0 auto; }
@@ -502,18 +507,18 @@
     }
     .detail-section { padding: 19px 0; border-bottom: 1px solid var(--line); }
     .detail-section:last-child { border-bottom: 0; }
-    .detail-section h3 { margin: 0 0 12px; font-size: 11px; color: var(--muted); }
+    .detail-section h3 { margin: 0 0 12px; font-size: 12px; color: var(--red); }
     .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
     .detail-field span { display: block; color: var(--subtle); font-size: 10px; }
-    .detail-field strong, .detail-field p { display: block; margin: 4px 0 0; font-size: 12px; font-weight: 700; white-space: pre-line; }
-    .detail-field p { color: #3f4b60; font-weight: 500; }
+    .detail-field strong, .detail-field p { display: block; margin: 5px 0 0; font-size: 13px; font-weight: 700; white-space: pre-line; }
+    .detail-field p { color: #4f4548; font-weight: 500; line-height: 1.6; }
     .detail-wide { grid-column: 1 / -1; }
     .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
     .compare-panel { min-height: 155px; padding: 14px; background: var(--surface); }
-    .compare-panel.current { background: #f7faff; }
+    .compare-panel.current { background: #fff5f6; box-shadow: inset 3px 0 0 var(--red); }
     .compare-label { color: var(--muted); font-size: 10px; font-weight: 800; }
     .compare-status { margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .compare-content { margin: 13px 0 0; color: #3f4b60; font-size: 12px; white-space: pre-line; }
+    .compare-content { margin: 13px 0 0; color: #4f4548; font-size: 13px; line-height: 1.6; white-space: pre-line; }
     .empty-copy { color: var(--subtle); font-style: italic; }
 
     .toast {
@@ -523,7 +528,7 @@
       z-index: 120;
       padding: 10px 13px;
       color: #fff;
-      background: #172033;
+      background: #8f1425;
       border-radius: 5px;
       box-shadow: var(--shadow);
       font-size: 11px;
@@ -709,8 +714,8 @@
 
         <section class="section-band" id="tasks">
           <div class="section-head">
-            <div><h2 class="section-title" id="taskSectionTitle">전체 업무목록</h2><p class="section-caption">행을 선택하면 상세 인스펙터가 열립니다.</p></div>
-            <div class="section-meta">내부 식별값 비노출</div>
+            <div><h2 class="section-title" id="taskSectionTitle">전체 업무목록</h2><p class="section-caption">상태·진행률·마감일 기준 업무 현황</p></div>
+            <div class="section-meta">주간업무 조회</div>
           </div>
           <div class="task-toolbar">
             <div class="status-tabs" id="statusTabs"></div>
@@ -757,11 +762,11 @@
     const DATA = {"meta":{"week":"2026-08-24","period":"2026.08.24 - 08.28","generatedAt":"2026-08-25 수동 실행","excluded":6},"tasks":[{"detailKey":"2026-08-24|오아-260810-004","kind":"","owner":"오정아","collaborators":"","category":"전략사업","area":"이주배경 모델개발","title":"연구용역비 잔금 지급","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"80%","pastContent":"전자계산서 발행 후 지출결의진행","status":"진행중","currentProgress":"100%","currentPlan":"","nextAction":"","managementGrade":"","managementPoint":"","issue":"최종본 확정 후 진행","external":"","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|오아-260810-005","kind":"","owner":"오정아","collaborators":"","category":"전략사업","area":"이주배경 모델개발","title":"콘텐츠 개발 업체 연구용역 체결 준비","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"50%","pastContent":"과업지시서 수정, 용역계약체결 관련 법무검토 진행","status":"진행중","currentProgress":"50%","currentPlan":"과업지시서 1차 수정본 내부검토 완료 후 업체 발송  \n","nextAction":"","managementGrade":"","managementPoint":"","issue":"사회적기업·여성기업 수의계약 요건 검토 필요","external":"자람패밀리","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|오아-260824-001","kind":"신규","owner":"오정아","collaborators":"","category":"전략사업","area":"이주배경 모델개발","title":"콘텐츠 개발 업체 연구용역 체결 준비","startDate":"","dueDate":"","pastStatus":"","pastProgress":"","pastContent":"","status":"진행중","currentProgress":"50%","currentPlan":"용역계약체결 관련 법무검토 진행","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|오아-260824-002","kind":"신규","owner":"오정아","collaborators":"","category":"전략사업","area":"이주배경 모델개발","title":"SLG 발표자료 준비","startDate":"","dueDate":"","pastStatus":"","pastProgress":"","pastContent":"","status":"진행중","currentProgress":"50%","currentPlan":"SLG 발표자료 작성을 위한 초안작성 완료. \n팀장님 검토 후 자료 작성 진행 ","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|오아-260810-007","kind":"","owner":"오정아","collaborators":"","category":"전략사업","area":"이주배경 모델개발","title":"ESG부문 협업 F/U","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"","pastContent":"F/U","status":"진행중","currentProgress":"","currentPlan":"F/U","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"국내사업기획팀","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|오아-260810-008","kind":"","owner":"오정아","collaborators":"","category":"아동학대예방교육","area":"도담/조손","title":"도담도담 워크북 진행사항 F/U","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"80%","pastContent":"마플샵 1차 입고(100권)사항 확인, 김포시 육아종 교재구입 관련 안내","status":"완료","currentProgress":"100%","currentPlan":"김포시 육아종 매뉴얼북 발송  ","nextAction":"","managementGrade":"","managementPoint":"","issue":"1~2권 추가 제작 및 2027년 상반기 마플샵 입고 시점 검토","external":"아동권리사업팀, 에이치썸","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|오아-260810-009","kind":"","owner":"오정아","collaborators":"","category":"아동학대예방교육","area":"도담/조손","title":"특별한 보호가 필요한 아동 대상 아동권리교육 검토","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"80%","pastContent":"교육신청 기관별 희망일자 조사 ","status":"진행중","currentProgress":"80%","currentPlan":"교육신청 기관별 희망일자 조사 완료 (총83명)\n-서울중부/부천/안산/안산쉼터: 18명\n-울산/울산쉼터: 7명, 충북가위: 14명\n-전북가위: 17명, 대구가위: 14명 \n-부산가위: 13명\n10월 중 교육 일정 확정","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"산하시설","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-001","kind":"","owner":"최현지","collaborators":"","category":"사업관리","area":"아보전","title":"콘텐츠 아카이빙","startDate":"","dueDate":"2026-12-31","pastStatus":"완료","pastProgress":"100%","pastContent":"자료집 시설별 검수 회신 및 스페이스 게시, 단순 아카이빙 건 게시 안내","status":"계획","currentProgress":"","currentPlan":"시설별 아카이빙 게시 자료 모니터링","nextAction":"전체 아카이빙 자료 리스트화(자료집+단순 아카이빙건)","managementGrade":"중간","managementPoint":"","issue":"","external":"","deliverable":"스페이스 게시 자료","detail":"시설별 단순 아카이빙으로 분류한 콘텐츠 게시 모니터링, 전체 게시 완료 시 스페이스 공지사항 내 리스트화","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-002","kind":"","owner":"최현지","collaborators":"","category":"사업관리","area":"아보전","title":"콘텐츠 아카이빙","startDate":"","dueDate":"2026-08-28","pastStatus":"진행중","pastProgress":"80%","pastContent":"아카이빙 결과보고 작성","status":"계획","currentProgress":"","currentPlan":"아카이빙 결과보고 품의","nextAction":"","managementGrade":"중간","managementPoint":"","issue":"","external":"","deliverable":"분석자료","detail":"법인/시설 박람회 비용 분리하여 결산 내역 반영한 후 품의 상신 예정","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-004","kind":"","owner":"최현지","collaborators":"","category":"사업관리","area":"아보전","title":"심층사업 활성화","startDate":"","dueDate":"2026-12-31","pastStatus":"진행중","pastProgress":"20%","pastContent":"심층 활성화 가이드 마련(1차)","status":"진행중","currentProgress":"20%","currentPlan":"가이드 틀 구성","nextAction":"상세 내용 구성","managementGrade":"높음","managementPoint":"","issue":"","external":"","deliverable":"","detail":"영역 관련 기존 가이드 양식 검토하여 가이드 틀 마련","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-005","kind":"","owner":"최현지","collaborators":"","category":"사업관리","area":"아보전","title":"특화사업","startDate":"","dueDate":"2026-12-31","pastStatus":"완료","pastProgress":"100%","pastContent":"특화사업 실적 취합","status":"계획","currentProgress":"","currentPlan":"시설별 특화사업 적용 현황 관리","nextAction":"10월 3분기 실적 모니터링 후 연말 평가회 진행 방식 계획","managementGrade":"낮음","managementPoint":"","issue":"","external":"","deliverable":"","detail":"시설별 특화사업 적용 현황 확인을 위한 전체 취합 관리 서식 마련","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-007","kind":"","owner":"최현지","collaborators":"","category":"실천사례공유회/기타","area":"실천사례공유회","title":"불가리코리아 쉼터지원사업","startDate":"","dueDate":"2026-12-12","pastStatus":"완료","pastProgress":"100%","pastContent":"울산쉼터 개보수 공사 일정 확인 및 ESG 공유","status":"계획","currentProgress":"","currentPlan":"하반기 예산 배부 일정 안내 및 사업 추진 일정 계획 요청","nextAction":"9월 초 울산쉼터 개보수 완료 모니터링, 9월 말 합동 캠프 추진 계획서 취합","managementGrade":"낮음","managementPoint":"","issue":"","external":"ESG","deliverable":"","detail":"9월 말 후원금 잔액(10,000천원) 지급 예정, 10월 초 세부 사업 계획서 ESG측 전달, 12월 2w까지 결과보고 예정","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-008","kind":"","owner":"최현지","collaborators":"","category":"실천사례공유회/기타","area":"실천사례공유회","title":"공모전 사례 접수/내부선별/심사 ","startDate":"","dueDate":"2026-09-17","pastStatus":"완료","pastProgress":"100%","pastContent":"접수건 리스트업 및 오류 검토, 내부 선별 사례 분류 및 검토","status":"진행중","currentProgress":"20%","currentPlan":"심사위원 질의사항 응대, 시설장 월례회의 시 접수 현황 및 평가 관련 안내(자료 작성)","nextAction":"심사위원 질의사항 응대, 심사결과 취합 서식 재정비, 2차 심사위원 사전 안내 메일 발송","managementGrade":"높음","managementPoint":"","issue":"","external":"","deliverable":"","detail":"시설장 대상 사례접수 현황(시설별 노출X), 내부선별 방법 등 안내 예정\n2차(외부) 심사위원 대상 심사 개요, 역할, 요청사항 등 상세 내용 재안내","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-010","kind":"","owner":"최현지","collaborators":"전체","category":"실천사례공유회/기타","area":"실천사례공유회","title":"행사 팀 업무 분장","startDate":"","dueDate":"2026-11-12","pastStatus":"완료","pastProgress":"100%","pastContent":"팀원별 업무분장(안) 공유","status":"계획","currentProgress":"","currentPlan":"행사 전체 일정 구글 캘린더 공유","nextAction":"요청 업무별 상세 역할 및 컨셉 관련 공유(w.팀장님)","managementGrade":"중간","managementPoint":"","issue":"","external":"","deliverable":"","detail":"팀장님 동석하에 세부 업무별 역할 및 컨셉, 진행 계획 공유 회의 진행(TF 컨셉 회의 이후에 요청 예정)","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260810-011","kind":"","owner":"최현지","collaborators":"","category":"실천사례공유회/기타","area":"실천사례공유회","title":"행사 사전 준비","startDate":"","dueDate":"2026-11-12","pastStatus":"계획","pastProgress":"","pastContent":"","status":"계획","currentProgress":"","currentPlan":"TF 컨셉 회의, 업무 및 역할별 상세 타임테이블 계획","nextAction":"TF 회의 결과 보고 및 팀원 업무분장 과업 준비","managementGrade":"높음","managementPoint":"","issue":"","external":"","deliverable":"","detail":"행사의 전체적 컨셉 논의 및 방향 설정 → 현수막/동영상/이벤트존 구상 → 사전 제작/준비 가능한 업무는 분배 및 추진","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|최지-260824-001","kind":"신규","owner":"최현지","collaborators":"","category":"기타","area":"공통 협업","title":"아보전 영역 사례점검 ","startDate":"","dueDate":"2026-09-11","pastStatus":"","pastProgress":"","pastContent":"","status":"계획","currentProgress":"","currentPlan":"사례점검 사전회의 참석(8/27)","nextAction":"사례점검 진행(6개 시설)","managementGrade":"중간","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|김정-260810-001","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"양육코칭 심화 매뉴얼 고도화 연구","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"10%","pastContent":"2단계 연구 계약이행보증보험 증권 수령, 계약 및 착수보고회 품의","status":"진행중","currentProgress":"10%","currentPlan":"2단계 연구 선금 지급 지출(청구서 수령)","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"아동권리보장원, 연구진","deliverable":"매뉴얼/워크북/연구보고서","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-002","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"매뉴얼 가이드 영상 제작 준비","startDate":"","dueDate":"2026-08-24","pastStatus":"계획","pastProgress":"10%","pastContent":"비지오스튜디오 미팅 자료 준비(가이드영상 3편, 변화사례 스토리 편집 1편, 대구 시연영상 촬영/편집 1편), 8/24, 16시","status":"계획","currentProgress":"10%","currentPlan":"비지오스튜디오 미팅 (가이드영상 3편, 변화사례 스토리 편집 1편, 대구 시연영상 촬영/편집 1편), 8/24, 16시","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"연구진, IT팀","deliverable":"가이드 영상 스크립트","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-003","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"FGI 줌회의 ","startDate":"","dueDate":"","pastStatus":"계획","pastProgress":"50%","pastContent":"2차 심화 매뉴얼 연구 특수욕구아동 관련 FGI 줌회의, 8/19, 19시","status":"완료","currentProgress":"100%","currentPlan":"","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"산하 4개센터","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-004","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"착수보고회","startDate":"","dueDate":"2026-08-24","pastStatus":"계획","pastProgress":"0%","pastContent":"착수보고회 자료 취합, 준비","status":"계획","currentProgress":"0%","currentPlan":"착수보고회 (8/24/월, 14시, 서울지역본부)","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"부문3, 대구위탁, 연구진","deliverable":"착수보고회 자료","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260824-001","kind":"신규","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"성과공유회","startDate":"","dueDate":"2026-11-26","pastStatus":"계획","pastProgress":"20%","pastContent":"성과공유회 행사 계획서(보장원 발송용 개요서) 작성","status":"계획","currentProgress":"20%","currentPlan":"성과공유회 행사 계획서(보장원 발송용 개요서) 발송","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-005","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"보조금 잔금 집행 방법 회의","startDate":"","dueDate":"2026-08-12","pastStatus":"계획","pastProgress":"90%","pastContent":"보조금 잔금 집행방법 관련 대구센터 시뮬레이션 기준 안내/대구,충북,전북","status":"계획","currentProgress":"90%","currentPlan":"보조금 잔금 집행방법 사무원 확인","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"사무원","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-006","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁 양육코칭","title":"전담인력 스터디\nㄴSCK 산하기관\nㄴ신규 운영기관(경북,대전,제주)","startDate":"","dueDate":"2026-08-12","pastStatus":"계획","pastProgress":"90%","pastContent":"만족도검사 검사지 및 엑셀 코딩양식 업로드","status":"계획","currentProgress":"90%","currentPlan":"-만족도검사 검사지 및 엑셀 코딩양식 업로드\n-신규기관 전담인력 스터디+대구센터+보장원/9월2주차","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"전담인력","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-007","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁","title":"SCK 가정위탁사업 확산/확장 =>전문위탁 고도화","startDate":"","dueDate":"2026-08-10","pastStatus":"계획","pastProgress":"0%","pastContent":"전문위탁&입양전 위탁 관련 보장원 제안 자료 작성, ~8월말","status":"계획","currentProgress":"0%","currentPlan":"전문위탁&입양전 위탁 관련 보장원 제안 자료 작성, ~8월말","nextAction":"보장원 제안서 초안자료 작성","managementGrade":"","managementPoint":"","issue":"","external":"부문장","deliverable":"방향성 보고안","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-008","kind":"","owner":"김혜정","collaborators":"","category":"사업관리","area":"가정위탁","title":"오픈베이스 후원 자립지원사업 매칭","startDate":"","dueDate":"","pastStatus":"계획","pastProgress":"50%","pastContent":"오픈베이스 26년 지정후원금 관련 매칭 현황표 작성/기사공팀 김혜리매니저 확인","status":"계획","currentProgress":"50%","currentPlan":"오픈베이스 26년 지정후원금 관련 사업 매칭 현황표 작성/기사공 김혜리매니저 확인","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"오픈베이스","deliverable":"결과보고서/AMS 업로드","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김정-260810-009","kind":"","owner":"김혜정","collaborators":"","category":"통합점검/직무교육","area":"직무교육","title":"선임급교육 결과보고","startDate":"","dueDate":"","pastStatus":"계획","pastProgress":"100%","pastContent":"","status":"계획","currentProgress":"100%","currentPlan":"","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"결과보고서","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김섭-260810-001","kind":"","owner":"김홍섭","collaborators":"","category":"인사/지원 포컬","area":"공통","title":"시설 평가 KPI 취합/분석","startDate":"","dueDate":"2026-08-31","pastStatus":"진행중","pastProgress":"60%","pastContent":"시설 평가 KPI취합 및 분석","status":"진행중","currentProgress":"60%","currentPlan":"시설 평가 KPI취합 및 분석","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"KPI 분석자료","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김섭-260810-002","kind":"","owner":"김홍섭","collaborators":"","category":"인사/지원 포컬","area":"공통","title":"AI 관련 내용 정리","startDate":"","dueDate":"2026-08-26","pastStatus":"진행중","pastProgress":"60%","pastContent":"CEO 보고자료 작성 중","status":"진행중","currentProgress":"60%","currentPlan":"CEO 보고자료 작성 중","nextAction":"내부 보고 (1차)","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"CEO 보고자료","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김섭-260810-003","kind":"","owner":"김홍섭","collaborators":"","category":"인사/지원 포컬","area":"공통","title":"챗봇 TF 운영 준비","startDate":"","dueDate":"2026-08-12","pastStatus":"진행중","pastProgress":"70%","pastContent":"명단 확정 및 1차 모임 일정 공지","status":"완료","currentProgress":"70%","currentPlan":"완료","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김섭-260810-004","kind":"","owner":"김홍섭","collaborators":"","category":"인사/지원 포컬","area":"UP-GLE","title":"팀장 성과/면담관리 홈페이지 제작/테스트","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"90%","pastContent":"홈페이지 배포 준비","status":"진행중","currentProgress":"90%","currentPlan":"팀 테스트 중","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"홈페이지","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|김섭-260824-001","kind":"신규","owner":"김홍섭","collaborators":"","category":"인사/지원 포컬","area":"공통","title":"챗봇 KICK-OFF 준비","startDate":"","dueDate":"2026-09-02","pastStatus":"","pastProgress":"","pastContent":"","status":"진행중","currentProgress":"20%","currentPlan":"사전 회의자료 준비","nextAction":"KICK-OFF","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|김섭-260824-002","kind":"신규","owner":"김홍섭","collaborators":"","category":"인사/지원 포컬","area":"공통","title":"부문장 시설 현장 방문 계획 수립","startDate":"","dueDate":"2026-08-17","pastStatus":"진행중","pastProgress":"60%","pastContent":"일정 확정 및 그룹별 일정 수립","status":"완료","currentProgress":"60%","currentPlan":"시설별 방문일정 안내","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"일정 공지","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이혜-260810-002","kind":"","owner":"이은혜","collaborators":"","category":"조직관리/기타지원","area":"산하시설 간담회","title":"법인 검토 사항 3건 후속","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"","pastContent":"","status":"완료","currentProgress":"","currentPlan":"","nextAction":"","managementGrade":"","managementPoint":"","issue":"법인 검토 필요","external":"","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이혜-260810-004","kind":"","owner":"이은혜","collaborators":"","category":"조직관리/기타지원","area":"운영지원","title":"시설 홈페이지 하자보수 모니터링","startDate":"","dueDate":"","pastStatus":"진행중","pastProgress":"","pastContent":"","status":"진행중","currentProgress":"","currentPlan":"","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이혜-260824-001","kind":"신규","owner":"이은혜","collaborators":"","category":"조직관리/기타지원","area":"시설장회의","title":"6월 영역별 시설장 월례회의","startDate":"","dueDate":"2026-08-31","pastStatus":"진행중","pastProgress":"","pastContent":"안건 취합 및 자료 준비","status":"진행중","currentProgress":"","currentPlan":"8/25(화) 10:30 아보전영역 / 15:00 가위영역\n8/31(월) 결과보고 품의","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|이혜-260824-002","kind":"신규","owner":"이은혜","collaborators":"","category":"조직관리/기타지원","area":"시설장 워크숍","title":"10월 시설장 워크숍","startDate":"","dueDate":"2026-10-30","pastStatus":"진행중","pastProgress":"","pastContent":"","status":"진행중","currentProgress":"","currentPlan":"장소 및 프로그램 리스트업","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|이혜-260824-003","kind":"신규","owner":"이은혜","collaborators":"","category":"조직관리/기타지원","area":"운영지원","title":"수탁사업지원팀 운영지원 챗봇","startDate":"","dueDate":"2026-08-31","pastStatus":"진행 중","pastProgress":"","pastContent":"1차 테스트(팀내)","status":"진행중","currentProgress":"","currentPlan":"1차 테스트 결과 취합 및 보완작업","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":""},{"detailKey":"2026-08-24|이선-260810-001","kind":"","owner":"이영선","collaborators":"","category":"예산/후원","area":"예산","title":"시설 대외활동비 및 전입금 재원 논의","startDate":"","dueDate":"2026-08-05","pastStatus":"계획","pastProgress":"","pastContent":"법인 2차 추경 간략(안)제출","status":"계획","currentProgress":"","currentPlan":"가정위탁 사례점검 최종 안내 및 기록가이드 최종 검토 및 회의(25일, 시간 미정)","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"재무팀, 인사팀","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-002","kind":"","owner":"이영선","collaborators":"","category":"예산/후원","area":"경영보고","title":"7월 경영보고 취합","startDate":"","dueDate":"2026-08-04","pastStatus":"계획","pastProgress":"","pastContent":"esg 후원 매칭표 통합작성 공유 ","status":"계획","currentProgress":"","currentPlan":"아보전 사례점검 최종 안내(27일, 13시10분)","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"경영보고 취합본","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-003","kind":"","owner":"이영선","collaborators":"","category":"예산/후원","area":"FMS","title":"FMS 시설 예산/결산 등록 항목 취합 및 회신","startDate":"","dueDate":"2026-08-05","pastStatus":"계획","pastProgress":"","pastContent":"1-7월 대체처리 대량 수정 작성","status":"계획","currentProgress":"","currentPlan":"사례점검 / 기관별 사례 추출","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"재무팀","deliverable":"회신자료","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-004","kind":"","owner":"이영선","collaborators":"","category":"예산/후원","area":"추경","title":"법인 2차 추경 준비","startDate":"","dueDate":"2026-08-31","pastStatus":"계획","pastProgress":"","pastContent":"시설 예산서 업로드 관련 재무팀 자료 제출 ","status":"계획","currentProgress":"","currentPlan":"이사회 자료 작성(시설 3차 추경)(28일)","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"추경안","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-005","kind":"","owner":"이영선","collaborators":"","category":"리스크","area":"가정위탁","title":"가정위탁 직원교육 일정 확정 안내","startDate":"","dueDate":"2026-08-06","pastStatus":"계획","pastProgress":"","pastContent":"가정위탁 기록 가이드 최종 회의 자료 취합","status":"계획","currentProgress":"","currentPlan":"가정위탁 직원역량교육 자료 취합 및 보고 ","nextAction":"","managementGrade":"","managementPoint":"","issue":"전북 일정은 법인 직책자 교육일정으로 논의 필요","external":"대구가정위탁, 전북가정위탁","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-006","kind":"","owner":"이영선","collaborators":"","category":"리스크","area":"가정위탁","title":"가정위탁 기록 가이드 의견 취합 및 회의","startDate":"","dueDate":"2026-08-05","pastStatus":"계획","pastProgress":"","pastContent":"사례점검 사례목록 취합 및 기관별 사례 배분","status":"계획","currentProgress":"","currentPlan":"마스마룰즈 후원물품 배포 현황 공유(24일)","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-007","kind":"","owner":"이영선","collaborators":"","category":"리스크","area":"가정위탁","title":"가정위탁 직원교육 계획보고","startDate":"","dueDate":"2026-08-07","pastStatus":"계획","pastProgress":"","pastContent":"인천아보전 & 경인지역본부 리스크 회의 (사례가정 대상자 외 아동 사망의 건)","status":"계획","currentProgress":"","currentPlan":"ESG 사업비 사업계획Lv4 (가정위탁_오픈베이스) 생성 요청 및 예산조정 요청","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"계획보고","detail":"","updatedAt":"2026-08-24"},{"detailKey":"2026-08-24|이선-260810-008","kind":"","owner":"이영선","collaborators":"","category":"리스크","area":"사례점검","title":"사례점검 계획보고","startDate":"","dueDate":"2026-08-10","pastStatus":"계획","pastProgress":"","pastContent":"후원물품 회의 ","status":"계획","currentProgress":"","currentPlan":"대체처리 전표 검토 및 기안","nextAction":"","managementGrade":"","managementPoint":"","issue":"","external":"","deliverable":"계획보고","detail":"","updatedAt":"2026-08-24"}]};
     const STATUS_ORDER = ['계획', '진행중', '완료', '보류', '취소'];
     const STATUS_META = {
-      '계획': { cls: 'status-plan', color: '#6f4ad8' },
-      '진행중': { cls: 'status-progress', color: '#2463eb' },
-      '완료': { cls: 'status-done', color: '#0f8a78' },
-      '보류': { cls: 'status-hold', color: '#b36b00' },
-      '취소': { cls: 'status-cancel', color: '#8a94a7' }
+      '계획': { cls: 'status-plan', color: '#8f6a75' },
+      '진행중': { cls: 'status-progress', color: '#b42336' },
+      '완료': { cls: 'status-done', color: '#475467' },
+      '보류': { cls: 'status-hold', color: '#7b303c' },
+      '취소': { cls: 'status-cancel', color: '#a79ca0' }
     };
     const state = { owner: '전체', includeCollab: false, status: '전체', query: '' };
     const taskMap = new Map(DATA.tasks.map(function(task) { return [task.detailKey, task]; }));
@@ -969,7 +974,7 @@
         const active = state.owner === item.owner;
         return '<div class="owner-row" style="' + (active ? 'font-weight:800' : '') + '"><span class="owner-name">'
           + esc(item.owner) + '</span><span class="bar-track"><span class="bar-fill" style="width:'
-          + ((item.count / max) * 100) + '%;' + (active ? 'background:#0f8a78' : '') + '"></span></span>'
+          + ((item.count / max) * 100) + '%;' + (active ? 'background:#8f1425' : '') + '"></span></span>'
           + '<span class="owner-value">' + item.count + '</span></div>';
       }).join('');
     }
@@ -1146,4 +1151,3 @@
   </script>
 </body>
 </html>
-
